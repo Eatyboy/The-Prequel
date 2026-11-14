@@ -1,16 +1,18 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[Flags]
 public enum PlayerAbility
 {
-    None,
-    Projectile,
-    Dash,
-    BatSwarm,
-    Revive,
-    Stun,
+    None        = 0,
+    Projectile  = 1 << 0,
+    Dash        = 1 << 1,
+    BatSwarm    = 1 << 2,
+    Revive      = 1 << 3,
+    Stun        = 1 << 4,
 }
 
 public class Player : Singleton<Player>
@@ -18,7 +20,9 @@ public class Player : Singleton<Player>
     public Vector2 LookPos;
     public Vector2 LookDir;
 
-    private Health health;
+    public Health health;
+    public PlayerAbilities abilities;
+    public PlayerMovement movement;
     private List<Interactable> interactables = new();
 
     private InputAction interactAction;
@@ -31,6 +35,8 @@ public class Player : Singleton<Player>
         base.Awake();
         Instance = this;
         health = GetComponent<Health>();
+        abilities = GetComponent<PlayerAbilities>();
+        movement = GetComponent<PlayerMovement>();
 
         interactAction = InputSystem.actions.FindAction("Interact");
         look = InputSystem.actions.FindAction("Look");
