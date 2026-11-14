@@ -29,6 +29,7 @@ public class Player : Singleton<Player>
 
     // Actions
     private InputAction look;
+    public Action onKill;
 
     public override void Awake()
     {

@@ -24,7 +24,7 @@ public class Coffin : MonoBehaviour
             return;
         }
 
-        Player.Instance.abilities.unlockedAbilities |= unlocks;
+        Player.Instance.abilities.Unlock(unlocks);
         isOpened = true;
         Debug.Log($"Unlocked {unlocks}!");
     }

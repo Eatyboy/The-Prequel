@@ -83,6 +83,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
   unlockedAbilities: 0
+  abilities:
+  - key: 1
+    value:
+      ability: 1
+      cooldown: 0.1
+      unlockedByDefault: 1
+      cooldownTimer: 0
+  - key: 2
+    value:
+      ability: 2
+      cooldown: 10
+      unlockedByDefault: 0
+      cooldownTimer: 0
+  - key: 4
+    value:
+      ability: 4
+      cooldown: 15
+      unlockedByDefault: 0
+      cooldownTimer: 0
+  - key: 8
+    value:
+      ability: 8
+      cooldown: 60
+      unlockedByDefault: 0
+      cooldownTimer: 0
+  - key: 16
+    value:
+      ability: 16
+      cooldown: 5
+      unlockedByDefault: 0
+      cooldownTimer: 0
+  abilityIndicators:
+  - key: 8
+    value: {fileID: 0}
+  - key: 16
+    value: {fileID: 0}
+  - key: 2
+    value: {fileID: 0}
+  - key: 4
+    value: {fileID: 0}
 --- !u!114 &5586448984506317681
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b93035b2cc3b4c4ea16218d1df5f2a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IDamageable
+  healthBar: {fileID: 0}
   CurrentHealth: 25
   MaxHealth: 25
 --- !u!50 &1528514388385755864

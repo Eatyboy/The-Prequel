@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +17,38 @@ public class PlayerAbilities : MonoBehaviour
 
     public PlayerAbility unlockedAbilities = PlayerAbility.None;
 
+    [Serializable]
+    public class AbilityState
+    {
+        public PlayerAbility ability;
+        public float cooldown;
+        public bool unlockedByDefault = false;
+        public float cooldownTimer;
+        public bool onCooldown => cooldownTimer > 0.0f;
+        public float cooldownProportion => cooldownTimer / cooldown;
+        public bool isUnlocked => Player.Instance.abilities.unlockedAbilities.HasFlag(ability);
+
+        public AbilityState(PlayerAbility ability)
+        {
+            this.ability = ability;
+        }
+
+        public void GoOnCooldown()
+        {
+            cooldownTimer = cooldown;
+        }
+    }
+
+    [SerializeField] public Dictionary<PlayerAbility, AbilityState> abilities = new()
+    {
+        [PlayerAbility.Projectile] = new(PlayerAbility.Projectile),
+        [PlayerAbility.Dash] = new(PlayerAbility.Dash),
+        [PlayerAbility.BatSwarm] = new(PlayerAbility.BatSwarm),
+        [PlayerAbility.Revive] = new(PlayerAbility.Revive),
+        [PlayerAbility.Stun] = new(PlayerAbility.Stun),
+    };
+    [SerializeField] public Dictionary<PlayerAbility, AbilityIndicator> abilityIndicators = new();
+
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
@@ -23,19 +58,54 @@ public class PlayerAbilities : MonoBehaviour
         dashAction = InputSystem.actions.FindAction("Dash");
     }
 
+    private void Start()
+    {
+        Player.Instance.onKill += () => { abilities[PlayerAbility.Dash].cooldownTimer = 0.0f; };
+
+        foreach (var abilityState in abilities.Values)
+        {
+            abilityState.cooldownTimer = 0.0f;
+            if (abilityState.unlockedByDefault) unlockedAbilities |= abilityState.ability;
+            if (abilityIndicators.TryGetValue(abilityState.ability, out var indicator)) 
+            {
+                indicator.gameObject.SetActive(abilityState.isUnlocked);
+            }
+        }
+    }
+
+    private bool CanUse(PlayerAbility ability) => unlockedAbilities.HasFlag(PlayerAbility.Dash) && !abilities[PlayerAbility.Dash].onCooldown;
+
     private void Update()
     {
-        if (ability1.WasPressedThisFrame())
+        if (ability1.WasPressedThisFrame() && CanUse(PlayerAbility.Stun))
         {
+            abilities[PlayerAbility.Stun].GoOnCooldown();
             AbilityOne();
         }
-        if (ability2.WasPressedThisFrame())
+        if (ability2.WasPressedThisFrame() && CanUse(PlayerAbility.BatSwarm))
         {
+            abilities[PlayerAbility.BatSwarm].GoOnCooldown();
             AbilityTwo();
         }
-        if (dashAction.WasPressedThisFrame() && unlockedAbilities.HasFlag(PlayerAbility.Dash))
+        if (dashAction.WasPressedThisFrame() && CanUse(PlayerAbility.Dash))
         {
+            abilities[PlayerAbility.Dash].GoOnCooldown();
             movement.Dash();
+        }
+
+        foreach (var abilityState in abilities.Values)
+        {
+            if (!abilityState.isUnlocked) return;
+            abilityState.cooldownTimer = Mathf.Max(abilityState.cooldownTimer - Time.deltaTime, 0.0f);
+        }
+    }
+
+    public void Unlock(PlayerAbility ability)
+    {
+        unlockedAbilities |= ability;
+        if (abilityIndicators.TryGetValue(ability, out var indicator))
+        {
+            indicator.gameObject.SetActive(true);
         }
     }
 
