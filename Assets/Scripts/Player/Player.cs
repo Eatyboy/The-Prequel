@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Player : Singleton<Player>
 {
+    public Vector2 LookPos;
     public Vector2 LookDir;
 
     private Health health;
@@ -26,7 +27,8 @@ public class Player : Singleton<Player>
 
     private void Update()
     {
-        LookDir = (look.ReadValue<Vector2>() - (Vector2)transform.position).normalized;
+        LookPos = Camera.main.ScreenToWorldPoint(look.ReadValue<Vector2>());
+        LookDir = (LookPos - (Vector2)transform.position).normalized;
 
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {

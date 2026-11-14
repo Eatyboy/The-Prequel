@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerAttacks : MonoBehaviour
 {
     [Header("Prefabs")]
-    [SerializeField] GameObject meleeProjectile;
+    [SerializeField] GameObject rangedProjectile;
 
     // Actions
     private InputAction primaryAttack;
@@ -24,25 +24,25 @@ public class PlayerAttacks : MonoBehaviour
         }
         if (secondaryAttack.WasPressedThisFrame())
         {
-            SecondaryAttack();
+            SecondaryAttack(Player.Instance.LookDir);
         }
     }
 
     // Claw melee
     private void PrimaryAttack(Vector2 direction)
     {
-        GameObject projectileGO = Instantiate(meleeProjectile);
+        
+    }
+
+    // Blood spike
+    private void SecondaryAttack(Vector2 direction)
+    {
+        GameObject projectileGO = Instantiate(rangedProjectile);
         Projectile projectile = projectileGO.GetComponent<Projectile>();
 
         projectile.Source = gameObject;
         projectile.StartDirection = direction;
         projectileGO.transform.position = transform.position;
         projectile.IgnoreTag = "Player";
-    }
-
-    // Blood spike
-    private void SecondaryAttack()
-    {
-
     }
 }

@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   Damage: 10
-  Speed: 5
+  Speed: 10
   Source: {fileID: 0}
   IgnoreTag: 
   MaxLifetime: 10

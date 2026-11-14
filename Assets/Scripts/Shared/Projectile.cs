@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
     private void Start()
     {
         currentLifetime = MaxLifetime;
-        transform.rotation.SetLookRotation(StartDirection);
+        transform.rotation = Quaternion.FromToRotation(transform.right, StartDirection);
     }
 
     private void Update()

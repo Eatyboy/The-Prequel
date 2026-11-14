@@ -889,6 +889,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39824e7e356cfb249a795c3ead374233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
+  LookPos: {x: 0, y: 0}
+  LookDir: {x: 0, y: 0}
 --- !u!114 &1682444713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,7 +915,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2743669bb0e1644f92ee61fb57681a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttacks
-  meleeProjectile: {fileID: 3724049410317169947, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
+  rangedProjectile: {fileID: 3724049410317169947, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
 --- !u!1001 &5999725338122339215
 PrefabInstance:
   m_ObjectHideFlags: 0
