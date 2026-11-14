@@ -11,7 +11,7 @@ public class EnemyMovement : MonoBehaviour
 
     // Vars
     private Vector2 moveDir;
-    private float distanceToTarget;
+    public float distanceToTarget;
 
     // Refs
     private Rigidbody2D rb;

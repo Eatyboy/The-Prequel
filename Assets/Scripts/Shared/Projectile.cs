@@ -7,7 +7,8 @@ public class Projectile : MonoBehaviour
     public float Speed;
     public GameObject Source;
     public string IgnoreTag;
-    public float MaxLifetime;
+    public float Range;
+    public float MaxLifetime => Range / Speed;
     public int PierceNum;
     public Vector2 StartDirection;
 
@@ -26,6 +27,14 @@ public class Projectile : MonoBehaviour
     {
         currentLifetime = MaxLifetime;
         transform.rotation = Quaternion.FromToRotation(transform.right, StartDirection);
+    }
+
+    public void Init(Vector2 origin, Vector2 startDirection, GameObject source, string ignoreTag = "")
+    {
+        transform.position = origin;
+        StartDirection = startDirection;
+        Source = source;
+        IgnoreTag = ignoreTag;
     }
 
     private void Update()

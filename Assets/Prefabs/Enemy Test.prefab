@@ -50,6 +50,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   health: {fileID: 0}
+  bullet: {fileID: 6504504461582394654, guid: 468736d15a48a61459d49c2f97e82917, type: 3}
+  movement: {fileID: 0}
+  attackCooldown: 1
 --- !u!114 &5623725724672471197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,8 +66,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
   speed: 3
-  stopDistance: 1.5
+  stopDistance: 4
   Target: {fileID: 0}
+  distanceToTarget: 0
 --- !u!114 &-8479483473749705549
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -51,7 +51,7 @@ MonoBehaviour:
   Speed: 10
   Source: {fileID: 0}
   IgnoreTag: 
-  MaxLifetime: 10
+  Range: 7
   PierceNum: 1
   StartDirection: {x: 0, y: 0}
 --- !u!50 &1697551413084806854
