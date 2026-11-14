@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Health health;
+
+    private void Awake()
     {
-        
+        health = GetComponent<Health>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        health.OnDeath += Die;
+    }
+    
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

@@ -15,10 +15,16 @@ public enum PlayerAbility
 
 public class Player : Singleton<Player>
 {
+    public Vector2 LookPos;
+    public Vector2 LookDir;
+
     private Health health;
     private List<Interactable> interactables = new();
 
     private InputAction interactAction;
+
+    // Actions
+    private InputAction look;
 
     public override void Awake()
     {
@@ -27,6 +33,7 @@ public class Player : Singleton<Player>
         health = GetComponent<Health>();
 
         interactAction = InputSystem.actions.FindAction("Interact");
+        look = InputSystem.actions.FindAction("Look");
     }
 
     private void Start()
@@ -36,6 +43,9 @@ public class Player : Singleton<Player>
 
     private void Update()
     {
+        LookPos = Camera.main.ScreenToWorldPoint(look.ReadValue<Vector2>());
+        LookDir = (LookPos - (Vector2)transform.position).normalized;
+
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             health.TakeDamage(10);
