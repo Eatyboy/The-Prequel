@@ -13,16 +13,17 @@ public enum PlayerAbility
     BatSwarm    = 1 << 2,
     Revive      = 1 << 3,
     Stun        = 1 << 4,
+    Claws       = 1 << 5,
 }
 
 public class Player : Singleton<Player>
 {
-    public Vector2 LookPos;
-    public Vector2 LookDir;
+    [HideInInspector] public Vector2 LookPos;
+    [HideInInspector] public Vector2 LookDir;
 
-    public Health health;
-    public PlayerAbilities abilities;
-    public PlayerMovement movement;
+    [HideInInspector] public Health health;
+    [HideInInspector] public PlayerAbilities abilities;
+    [HideInInspector] public PlayerMovement movement;
     private List<Interactable> interactables = new();
 
     private InputAction interactAction;

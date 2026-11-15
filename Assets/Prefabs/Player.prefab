@@ -70,7 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2743669bb0e1644f92ee61fb57681a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttacks
-  rangedProjectile: {fileID: 2809413728665779919, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
+  meleeEffectPrefab: {fileID: 5957657109047962385, guid: ad07bf138e0ff974e8fa66546ba6343a, type: 3}
+  rangedProjectilePrefab: {fileID: 2809413728665779919, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
 --- !u!114 &7206518852014946525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +116,12 @@ MonoBehaviour:
       cooldown: 5
       unlockedByDefault: 0
       cooldownTimer: 0
+  - key: 32
+    value:
+      ability: 32
+      cooldown: 0.35
+      unlockedByDefault: 1
+      cooldownTimer: 0
   abilityIndicators:
   - key: 8
     value: {fileID: 0}
@@ -137,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 5
+  moveDir: {x: 0, y: 0}
   enemyLayerMask:
     serializedVersion: 2
     m_Bits: 64

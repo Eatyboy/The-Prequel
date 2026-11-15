@@ -4,9 +4,10 @@ public class Projectile : MonoBehaviour
 {
     // Config
     public float Damage;
-    public float Speed;
     public GameObject Source;
     public string IgnoreTag;
+
+    public float Speed;
     public float Range;
     public float MaxLifetime => Range / Speed;
     public int PierceNum;

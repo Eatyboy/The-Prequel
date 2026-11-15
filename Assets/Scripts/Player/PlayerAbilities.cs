@@ -9,8 +9,11 @@ public class PlayerAbilities : MonoBehaviour
 {
     // Refs
     private PlayerMovement movement;
+    private PlayerAttacks attacks;
 
     // Actions
+    private InputAction primaryAttack;
+    private InputAction secondaryAttack;
     private InputAction ability1;
     private InputAction ability2;
     private InputAction dashAction;
@@ -46,13 +49,17 @@ public class PlayerAbilities : MonoBehaviour
         [PlayerAbility.BatSwarm] = new(PlayerAbility.BatSwarm),
         [PlayerAbility.Revive] = new(PlayerAbility.Revive),
         [PlayerAbility.Stun] = new(PlayerAbility.Stun),
+        [PlayerAbility.Claws] = new(PlayerAbility.Claws),
     };
     [SerializeField] public Dictionary<PlayerAbility, AbilityIndicator> abilityIndicators = new();
 
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
+        attacks = GetComponent<PlayerAttacks>();
         
+        primaryAttack = InputSystem.actions.FindAction("PrimaryAttack");
+        secondaryAttack = InputSystem.actions.FindAction("SecondaryAttack");
         ability1 = InputSystem.actions.FindAction("Ability1");
         ability2 = InputSystem.actions.FindAction("Ability2");
         dashAction = InputSystem.actions.FindAction("Dash");
@@ -73,10 +80,20 @@ public class PlayerAbilities : MonoBehaviour
         }
     }
 
-    private bool CanUse(PlayerAbility ability) => unlockedAbilities.HasFlag(PlayerAbility.Dash) && !abilities[PlayerAbility.Dash].onCooldown;
+    private bool CanUse(PlayerAbility ability) => unlockedAbilities.HasFlag(ability) && !abilities[ability].onCooldown;
 
     private void Update()
     {
+        if (primaryAttack.IsPressed() && CanUse(PlayerAbility.Claws))
+        {
+            abilities[PlayerAbility.Claws].GoOnCooldown();
+            attacks.PrimaryAttack(Player.Instance.LookDir);
+        }
+        if (secondaryAttack.WasPressedThisFrame() && CanUse(PlayerAbility.Projectile))
+        {
+            abilities[PlayerAbility.Projectile].GoOnCooldown();
+            attacks.SecondaryAttack(Player.Instance.LookDir);
+        }
         if (ability1.WasPressedThisFrame() && CanUse(PlayerAbility.Stun))
         {
             abilities[PlayerAbility.Stun].GoOnCooldown();
@@ -95,7 +112,7 @@ public class PlayerAbilities : MonoBehaviour
 
         foreach (var abilityState in abilities.Values)
         {
-            if (!abilityState.isUnlocked) return;
+            if (!abilityState.isUnlocked) continue;
             abilityState.cooldownTimer = Mathf.Max(abilityState.cooldownTimer - Time.deltaTime, 0.0f);
         }
     }
