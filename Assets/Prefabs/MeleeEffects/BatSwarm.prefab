@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeEffect
   Damage: 5
+  LifestealFactor: 0.5
   Source: {fileID: 0}
   IgnoreTag: Player
   StunDuration: 0

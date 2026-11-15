@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5957657109047962385}
   - component: {fileID: 8953821012552650016}
   m_Layer: 0
-  m_Name: MeleeEffect
+  m_Name: Claws
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,10 +47,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeEffect
   Damage: 10
+  LifestealFactor: 0.2
   Source: {fileID: 0}
   IgnoreTag: Player
+  BloodCost: 0
   StunDuration: 0
   RotationSpeed: 2
+  IsMultihit: 0
+  MultihitInterval: 0
   VisualDuration: 0.25
   HurtDuration: 0.1
 --- !u!70 &8953821012552650016

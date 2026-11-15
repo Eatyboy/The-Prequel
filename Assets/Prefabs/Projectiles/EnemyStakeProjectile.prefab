@@ -28,6 +28,18 @@ PrefabInstance:
       propertyPath: Speed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 2809413728665779919, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
+      propertyPath: Damage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2809413728665779919, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
+      propertyPath: BloodCost
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2809413728665779919, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
+      propertyPath: LifestealFactor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3724049410317169947, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
       propertyPath: m_Name
       value: EnemyStakeProjectile

@@ -19,16 +19,30 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float amount, GameObject source = null)
     {
-        if (amount == 0.0f || IsIntangible) return;
+        if (amount == 0.0f || amount > 0.0f && IsIntangible) return;
 
+        float actualDamageTaken = Mathf.Clamp(amount, 0, CurrentHealth);
         CurrentHealth = Mathf.Clamp(CurrentHealth - amount, 0, MaxHealth);
         OnTakeDamage?.Invoke(amount);
         if (healthBar != null) healthBar.SetHealth(Mathf.Max(CurrentHealth, 0) / MaxHealth);
-        // Source knows it dealt damage, do something like lifesteal
-        //if (source != null && source.TryGetComponent(out DamageSource damageSource))
-        //{
-        //    damageSource.
-        //}
+        
+        if (source != null)
+        {
+            if (source.TryGetComponent(out MeleeEffect meleeEffect))
+            {
+                if (meleeEffect.Source.TryGetComponent(out Health health))
+                {
+                    health.TakeDamage(-actualDamageTaken * meleeEffect.LifestealFactor);
+                }
+            }
+            if (source.TryGetComponent(out Projectile projectile))
+            {
+                if (projectile.Source.TryGetComponent(out Health health))
+                {
+                    health.TakeDamage(-actualDamageTaken * projectile.LifestealFactor);
+                }
+            }
+        }
 
         if (CurrentHealth <= 0)
         {

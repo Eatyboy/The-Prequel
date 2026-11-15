@@ -47,9 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0c43e56c46fbb499f01e31e67c9802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  Damage: 10
+  Damage: 20
+  LifestealFactor: 0.4
   Source: {fileID: 0}
   IgnoreTag: 
+  BloodCost: 3
   Speed: 10
   Range: 7
   PierceNum: 1

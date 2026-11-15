@@ -11,6 +11,7 @@ public class PlayerAbilities : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private MeleeEffect stunConePrefab;
     [SerializeField] private MeleeEffect batSwarmPrefab;
+    [SerializeField] private MeleeEffect deathRefusalExplosionPrefab;
 
     // Refs
     private PlayerMovement movement;
@@ -55,6 +56,7 @@ public class PlayerAbilities : MonoBehaviour
         [PlayerAbility.Revive] = new(PlayerAbility.Revive),
         [PlayerAbility.Stun] = new(PlayerAbility.Stun),
         [PlayerAbility.Claws] = new(PlayerAbility.Claws),
+        [PlayerAbility.DeathRefusal] = new(PlayerAbility.DeathRefusal),
     };
     [SerializeField] public Dictionary<PlayerAbility, AbilityIndicator> abilityIndicators = new();
 
@@ -85,7 +87,7 @@ public class PlayerAbilities : MonoBehaviour
         }
     }
 
-    private bool CanUse(PlayerAbility ability) => unlockedAbilities.HasFlag(ability) && !abilities[ability].onCooldown;
+    public bool CanUse(PlayerAbility ability) => unlockedAbilities.HasFlag(ability) && !abilities[ability].onCooldown;
 
     private void Update()
     {
@@ -131,6 +133,15 @@ public class PlayerAbilities : MonoBehaviour
         }
     }
 
+    public void DeathRefusal()
+    {
+        Player.Instance.health.SetIntangible(true);
+        Player.Instance.health.CurrentHealth = 1;
+        MeleeEffect deathRefuse = Instantiate(deathRefusalExplosionPrefab, transform);
+        deathRefuse.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
+        StartCoroutine(DeathRefuse(1.0f));
+    }
+
     // Cone stun
     private void AbilityOne()
     {
@@ -148,6 +159,12 @@ public class PlayerAbilities : MonoBehaviour
     }
 
     private IEnumerator BatSwarm(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        Player.Instance.health.SetIntangible(false);
+    }
+
+    private IEnumerator DeathRefuse(float duration)
     {
         yield return new WaitForSeconds(duration);
         Player.Instance.health.SetIntangible(false);

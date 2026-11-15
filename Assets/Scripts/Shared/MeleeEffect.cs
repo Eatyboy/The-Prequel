@@ -6,8 +6,10 @@ public class MeleeEffect : MonoBehaviour
 {
     // Config
     public float Damage;
+    public float LifestealFactor;
     public GameObject Source;
     public string IgnoreTag;
+    public float BloodCost;
 
     public float StunDuration;
     public float RotationSpeed;
@@ -38,25 +40,38 @@ public class MeleeEffect : MonoBehaviour
         visualCountdown = VisualDuration;
         hurtCountdown = HurtDuration;
         multihitCountdown = MultihitInterval;
+
+        if (Source != null)
+        {
+            if (Source.TryGetComponent(out Health health))
+            {
+                health.TakeDamage(BloodCost);
+            }
+        }
     }
 
     private void Update()
     {
         visualCountdown -= Time.deltaTime;
         hurtCountdown -= Time.deltaTime;
-        multihitCountdown -= Time.deltaTime;
+        
 
         if (visualCountdown <= 0 && hurtCountdown <= 0)
         {
             Die();
         }
-        if (multihitCountdown <= 0)
-        {
-            multihitCountdown = MultihitInterval;
 
-            GetComponent<CapsuleCollider2D>().enabled = false;
-            alreadyHit.Clear();
-            GetComponent<CapsuleCollider2D>().enabled = true;
+        if (IsMultihit)
+        {
+            multihitCountdown -= Time.deltaTime;
+            if (multihitCountdown <= 0)
+            {
+                multihitCountdown = MultihitInterval;
+
+                GetComponent<Collider2D>().enabled = false;
+                alreadyHit.Clear();
+                GetComponent<Collider2D>().enabled = true;
+            }
         }
     }
 
@@ -85,7 +100,7 @@ public class MeleeEffect : MonoBehaviour
             {
                 if (health.IsIntangible) return;
 
-                health.TakeDamage(Damage, Source);
+                health.TakeDamage(Damage, gameObject);
                 alreadyHit.Add(collision.gameObject);
             }
             if (collision.transform.TryGetComponent(out Enemy enemy))

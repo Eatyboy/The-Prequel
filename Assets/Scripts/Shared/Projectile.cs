@@ -4,8 +4,10 @@ public class Projectile : MonoBehaviour
 {
     // Config
     public float Damage;
+    public float LifestealFactor;
     public GameObject Source;
     public string IgnoreTag;
+    public float BloodCost;
 
     public float Speed;
     public float Range;
@@ -28,6 +30,14 @@ public class Projectile : MonoBehaviour
     {
         currentLifetime = MaxLifetime;
         transform.rotation = Quaternion.FromToRotation(transform.right, StartDirection);
+
+        if (Source != null)
+        {
+            if (Source.TryGetComponent(out Health health))
+            {
+                health.TakeDamage(BloodCost);
+            }
+        }
     }
 
     public void Init(Vector2 origin, Vector2 startDirection, GameObject source, string ignoreTag = "")
@@ -61,7 +71,7 @@ public class Projectile : MonoBehaviour
             {
                 if (health.IsIntangible) return;
 
-                health.TakeDamage(Damage, Source);
+                health.TakeDamage(Damage, gameObject);
                 PierceNum--;
 
                 if (PierceNum <= 0)

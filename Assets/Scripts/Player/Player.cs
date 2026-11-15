@@ -14,6 +14,7 @@ public enum PlayerAbility
     Revive      = 1 << 3,
     Stun        = 1 << 4,
     Claws       = 1 << 5,
+    DeathRefusal= 1 << 6,
 }
 
 public class Player : Singleton<Player>
@@ -46,7 +47,7 @@ public class Player : Singleton<Player>
 
     private void Start()
     {
-        health.OnDeath += () => { Debug.Log("Die"); };
+        health.OnDeath += PlayerDeath;
     }
 
     private void Update()
@@ -78,6 +79,19 @@ public class Player : Singleton<Player>
         if (collision.CompareTag("Interactable"))
         {
             interactables.Remove(collision.GetComponent<Interactable>());
+        }
+    }
+
+    private void PlayerDeath()
+    {
+        if (abilities.CanUse(PlayerAbility.DeathRefusal))
+        {
+            abilities.abilities[PlayerAbility.DeathRefusal].GoOnCooldown();
+            abilities.DeathRefusal();
+        }
+        else
+        {
+            Debug.Log("Die frfr");
         }
     }
 }
