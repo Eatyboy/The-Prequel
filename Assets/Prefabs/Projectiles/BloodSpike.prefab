@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2809413728665779919}
   - component: {fileID: 1697551413084806854}
   - component: {fileID: 7675623081508888031}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BloodSpike
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,9 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
   Damage: 10
-  Speed: 10
   Source: {fileID: 0}
   IgnoreTag: 
+  Speed: 10
   Range: 7
   PierceNum: 1
   StartDirection: {x: 0, y: 0}
@@ -128,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 662608476324590778}
   - component: {fileID: 1817573198958386292}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

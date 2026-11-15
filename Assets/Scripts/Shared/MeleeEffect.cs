@@ -11,6 +11,8 @@ public class MeleeEffect : MonoBehaviour
 
     public float StunDuration;
     public float RotationSpeed;
+    public bool IsMultihit;
+    public float MultihitInterval;
 
     public float VisualDuration;
     public float HurtDuration;
@@ -18,6 +20,7 @@ public class MeleeEffect : MonoBehaviour
     // Vars
     private float visualCountdown;
     private float hurtCountdown;
+    private float multihitCountdown;
 
     private List<GameObject> alreadyHit;
 
@@ -34,16 +37,26 @@ public class MeleeEffect : MonoBehaviour
 
         visualCountdown = VisualDuration;
         hurtCountdown = HurtDuration;
+        multihitCountdown = MultihitInterval;
     }
 
     private void Update()
     {
         visualCountdown -= Time.deltaTime;
         hurtCountdown -= Time.deltaTime;
+        multihitCountdown -= Time.deltaTime;
 
         if (visualCountdown <= 0 && hurtCountdown <= 0)
         {
             Die();
+        }
+        if (multihitCountdown <= 0)
+        {
+            multihitCountdown = MultihitInterval;
+
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            alreadyHit.Clear();
+            GetComponent<CapsuleCollider2D>().enabled = true;
         }
     }
 
@@ -70,6 +83,8 @@ public class MeleeEffect : MonoBehaviour
         {
             if (collision.transform.TryGetComponent(out Health health))
             {
+                if (health.IsIntangible) return;
+
                 health.TakeDamage(Damage, Source);
                 alreadyHit.Add(collision.gameObject);
             }

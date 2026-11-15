@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class PlayerAbilities : MonoBehaviour
 {
     [Header("Prefabs")]
     [SerializeField] private MeleeEffect stunConePrefab;
+    [SerializeField] private MeleeEffect batSwarmPrefab;
 
     // Refs
     private PlayerMovement movement;
@@ -139,6 +141,15 @@ public class PlayerAbilities : MonoBehaviour
     // Bat swarm invulnerability
     private void AbilityTwo()
     {
+        Player.Instance.health.SetIntangible(true);
+        MeleeEffect batSwarm = Instantiate(batSwarmPrefab, transform);
+        batSwarm.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
+        StartCoroutine(BatSwarm(3.0f));
+    }
 
+    private IEnumerator BatSwarm(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        Player.Instance.health.SetIntangible(false);
     }
 }

@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
   stunConePrefab: {fileID: 5957657109047962385, guid: 9ce345a592c6dd34e987381e4a9e8a10, type: 3}
+  batSwarmPrefab: {fileID: 5957657109047962385, guid: 659fe07d9956a2b41bbba73db1fc8ccd, type: 3}
   unlockedAbilities: 0
   abilities:
   - key: 1
@@ -180,9 +181,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b93035b2cc3b4c4ea16218d1df5f2a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IDamageable
-  healthBar: {fileID: 0}
-  CurrentHealth: 25
   MaxHealth: 25
+  CurrentHealth: 25
+  IsIntangible: 0
+  healthBar: {fileID: 0}
 --- !u!50 &1528514388385755864
 Rigidbody2D:
   serializedVersion: 5

@@ -59,6 +59,8 @@ public class Projectile : MonoBehaviour
         {
             if (collision.transform.TryGetComponent(out Health health))
             {
+                if (health.IsIntangible) return;
+
                 health.TakeDamage(Damage, Source);
                 PierceNum--;
 

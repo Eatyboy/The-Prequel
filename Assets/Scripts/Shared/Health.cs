@@ -3,16 +3,23 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    // Actions
     public Action<float> OnTakeDamage;
     public Action OnDeath;
-    [SerializeField] private HealthBar healthBar;
 
-    public float CurrentHealth;
+    // Config
     public float MaxHealth;
+
+    // Vars
+    public float CurrentHealth;
+    public bool IsIntangible;
+
+    // Refs
+    [SerializeField] private HealthBar healthBar;
 
     public void TakeDamage(float amount, GameObject source = null)
     {
-        if (amount == 0.0f) return;
+        if (amount == 0.0f || IsIntangible) return;
 
         CurrentHealth = Mathf.Clamp(CurrentHealth - amount, 0, MaxHealth);
         OnTakeDamage?.Invoke(amount);
@@ -27,5 +34,11 @@ public class Health : MonoBehaviour
         {
             OnDeath?.Invoke();
         }
+    }
+
+    public void SetIntangible(bool invulerable)
+    {
+        IsIntangible = invulerable;
+        GetComponentInChildren<SpriteRenderer>().color = invulerable ? new Color(1f, 1f, 1f, 0.1f) : Color.white;
     }
 }
