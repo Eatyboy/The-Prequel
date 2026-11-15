@@ -49,6 +49,8 @@ MonoBehaviour:
   Damage: 10
   Source: {fileID: 0}
   IgnoreTag: Player
+  StunDuration: 0
+  RotationSpeed: 2
   VisualDuration: 0.25
   HurtDuration: 0.1
 --- !u!70 &8953821012552650016

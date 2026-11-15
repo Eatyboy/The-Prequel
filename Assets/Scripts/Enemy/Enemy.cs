@@ -4,6 +4,10 @@ public class Enemy : MonoBehaviour
 {
     public Health health;
 
+    public bool IsStunned;
+
+    private float stunCountdown;
+
     [Header("Refs")]
     [SerializeField] private Projectile bullet;
     public EnemyMovement movement;
@@ -25,19 +29,41 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        if (movement.distanceToTarget <= movement.stopDistance)
+        if (IsStunned)
         {
-            attackTimer += Time.deltaTime;
-            if (attackTimer >= attackCooldown)
+            stunCountdown = Mathf.Max(stunCountdown - Time.deltaTime, 0.0f);
+            if (stunCountdown <= 0.0f)
             {
-                var newBullet = Instantiate(bullet);
-                newBullet.Init(transform.position, (movement.Target.position - transform.position).normalized, gameObject, "Enemy");
+                IsStunned = false;
+                movement.LockMovement(false);
+            }
+        }
+        else
+        {
+            if (movement.distanceToTarget <= movement.stopDistance)
+            {
+                attackTimer += Time.deltaTime;
+                if (attackTimer >= attackCooldown)
+                {
+                    var newBullet = Instantiate(bullet);
+                    newBullet.Init(transform.position, (movement.Target.position - transform.position).normalized, gameObject, "Enemy");
+                    attackTimer = 0.0f;
+                }
+            }
+            else
+            {
                 attackTimer = 0.0f;
             }
-        } else
-        {
-            attackTimer = 0.0f;
         }
+    }
+
+    public void Stun(float duration)
+    {
+        if (duration == 0.0f) return;
+
+        IsStunned = true;
+        stunCountdown = duration;
+        movement.LockMovement(true);
     }
 
     private void Die()

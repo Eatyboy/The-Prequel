@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public bool IsMovementLocked;
+
     [Header("Config")]
     public float speed;
     public float stopDistance;
@@ -28,16 +30,16 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Target != null)
+        if (IsMovementLocked || Target == null)
+        {
+            moveDir = Vector2.zero;
+            distanceToTarget = float.PositiveInfinity;
+        }
+        else
         {
             Vector2 offsetToTarget = Target.position - transform.position;
             moveDir = offsetToTarget.normalized;
             distanceToTarget = offsetToTarget.magnitude;
-        }
-        else
-        {
-            moveDir = Vector2.zero;
-            distanceToTarget = float.PositiveInfinity;
         }
 
         if (distanceToTarget > stopDistance)
@@ -48,5 +50,10 @@ public class EnemyMovement : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
         }
+    }
+
+    public void LockMovement(bool isLocked)
+    {
+        IsMovementLocked = isLocked;
     }
 }

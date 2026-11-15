@@ -54,11 +54,6 @@ public class Player : Singleton<Player>
         LookPos = Camera.main.ScreenToWorldPoint(look.ReadValue<Vector2>());
         LookDir = (LookPos - (Vector2)transform.position).normalized;
 
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            health.TakeDamage(10);
-        }
-
         if (interactAction.WasPressedThisFrame()) Interact();
     }
 

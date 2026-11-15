@@ -84,6 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7639468247b0d4fabe097f9907eeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
+  stunConePrefab: {fileID: 5957657109047962385, guid: 9ce345a592c6dd34e987381e4a9e8a10, type: 3}
   unlockedAbilities: 0
   abilities:
   - key: 1

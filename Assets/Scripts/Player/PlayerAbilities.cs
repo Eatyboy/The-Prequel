@@ -7,6 +7,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerAbilities : MonoBehaviour
 {
+    [Header("Prefabs")]
+    [SerializeField] private MeleeEffect stunConePrefab;
+
     // Refs
     private PlayerMovement movement;
     private PlayerAttacks attacks;
@@ -129,7 +132,8 @@ public class PlayerAbilities : MonoBehaviour
     // Cone stun
     private void AbilityOne()
     {
-
+        MeleeEffect stunCone = Instantiate(stunConePrefab, transform);
+        stunCone.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
     }
 
     // Bat swarm invulnerability

@@ -9,6 +9,9 @@ public class MeleeEffect : MonoBehaviour
     public GameObject Source;
     public string IgnoreTag;
 
+    public float StunDuration;
+    public float RotationSpeed;
+
     public float VisualDuration;
     public float HurtDuration;
 
@@ -44,9 +47,21 @@ public class MeleeEffect : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        float angleDiff = Vector3.SignedAngle(transform.right, Player.Instance.LookDir, Vector3.back);
+        angleDiff = Mathf.Clamp(angleDiff, -RotationSpeed, RotationSpeed);
+        transform.RotateAround(Player.Instance.transform.position, Vector3.back, angleDiff);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (visualCountdown <= 0)
+        if (hurtCountdown <= 0)
+        {
+            return;
+        }
+
+        if (alreadyHit.Contains(collision.gameObject))
         {
             return;
         }
@@ -55,12 +70,12 @@ public class MeleeEffect : MonoBehaviour
         {
             if (collision.transform.TryGetComponent(out Health health))
             {
-                if (alreadyHit.Contains(collision.gameObject))
-                {
-                    return;
-                }
                 health.TakeDamage(Damage, Source);
                 alreadyHit.Add(collision.gameObject);
+            }
+            if (collision.transform.TryGetComponent(out Enemy enemy))
+            {
+                enemy.Stun(StunDuration);
             }
         }
     }
