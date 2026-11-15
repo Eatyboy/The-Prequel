@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
 
     // Vars
-    private Vector2 moveDir;
+    public Vector2 moveDir;
 
     // Refs
     private InputAction moveAction;

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3438064663264169982}
   - component: {fileID: 7206518852014946525}
   - component: {fileID: 5586448984506317681}
+  - component: {fileID: 6032291327507745240}
   - component: {fileID: 4373478402136127348}
   - component: {fileID: 1528514388385755864}
   - component: {fileID: 5833757191836874556}
@@ -146,6 +147,18 @@ MonoBehaviour:
   dashDuration: 0.2
   dashDamage: 15
   isDashing: 0
+--- !u!114 &6032291327507745240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427617297966100953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32d4684f9e65c75489bb01e20af67e6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimation
 --- !u!114 &4373478402136127348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3289223412502860059}
   - component: {fileID: 7586365651011228977}
+  - component: {fileID: 3007349964014541259}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -353,3 +367,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!95 &3007349964014541259
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4809105072006344104}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 061cd52c50e27384b89ec06f46c4c54e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
