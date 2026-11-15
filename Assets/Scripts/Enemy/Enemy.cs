@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     {
         health = GetComponent<Health>();
         movement = GetComponent<EnemyMovement>();
+
+        health.OnTakeDamage += amount => OnTakeDamage(amount);
     }
 
     private void Start()
@@ -70,5 +72,10 @@ public class Enemy : MonoBehaviour
     {
         Player.Instance.onKill.Invoke();
         Destroy(gameObject);
+    }
+
+    private void OnTakeDamage(float amount)
+    {
+        PopupManager.Instance.SpawnDamagePopup(transform.position, amount);
     }
 }
