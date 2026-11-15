@@ -24,6 +24,7 @@ public class Coffin : MonoBehaviour
             return;
         }
 
+        GetComponent<Interactable>().Enable(false);
         Player.Instance.abilities.Unlock(unlocks);
         isOpened = true;
         Debug.Log($"Unlocked {unlocks}!");

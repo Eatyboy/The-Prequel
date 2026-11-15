@@ -25,7 +25,7 @@ public class Player : Singleton<Player>
     [HideInInspector] public Health health;
     [HideInInspector] public PlayerAbilities abilities;
     [HideInInspector] public PlayerMovement movement;
-    private List<Interactable> interactables = new();
+    [HideInInspector] public List<Interactable> interactables = new();
 
     private InputAction interactAction;
 
@@ -71,6 +71,7 @@ public class Player : Singleton<Player>
         if (collision.CompareTag("Interactable"))
         {
             interactables.Add(collision.GetComponent<Interactable>());
+            HeadsUpDisplay.Instance.Interact(interactables[^1].transform);
         }
     }
 
@@ -79,6 +80,14 @@ public class Player : Singleton<Player>
         if (collision.CompareTag("Interactable"))
         {
             interactables.Remove(collision.GetComponent<Interactable>());
+            if (interactables.Count > 0)
+            {
+                HeadsUpDisplay.Instance.Interact(interactables[^1].transform);
+            }
+            else
+            {
+                HeadsUpDisplay.Instance.Interact(null);
+            }
         }
     }
 
