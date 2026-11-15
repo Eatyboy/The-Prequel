@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerAbilities : MonoBehaviour
@@ -83,6 +84,7 @@ public class PlayerAbilities : MonoBehaviour
             if (abilityIndicators.TryGetValue(abilityState.ability, out var indicator)) 
             {
                 indicator.gameObject.SetActive(abilityState.isUnlocked);
+                LayoutRebuilder.ForceRebuildLayoutImmediate(indicator.transform.parent.GetComponent<RectTransform>());
             }
         }
     }
