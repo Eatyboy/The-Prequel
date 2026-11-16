@@ -7,13 +7,15 @@ public class AbilityIndicator : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] private Image cooldownIndicator;
+    [SerializeField] private Image keybindIconDisabledOverlay;
 
     public void Update()
     {
         if (Player.Instance.abilities.abilities.TryGetValue(ability, out var abilityState)) {
             if (abilityState.isUnlocked)
             {
-                cooldownIndicator.fillAmount = Mathf.Clamp01(abilityState.cooldownProportion);
+                cooldownIndicator.fillAmount = 1.0f - Mathf.Clamp01(abilityState.cooldownProportion);
+                keybindIconDisabledOverlay.gameObject.SetActive(abilityState.onCooldown);
             }
         }
     }
