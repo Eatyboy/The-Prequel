@@ -20,7 +20,6 @@ public class PlayerAbilities : MonoBehaviour
 
     // Refs
     private PlayerMovement movement;
-    private PlayerAttacks attacks;
 
     // Actions
     private InputAction primaryAttack;
@@ -68,7 +67,6 @@ public class PlayerAbilities : MonoBehaviour
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
-        attacks = GetComponent<PlayerAttacks>();
         
         primaryAttack = InputSystem.actions.FindAction("PrimaryAttack");
         secondaryAttack = InputSystem.actions.FindAction("SecondaryAttack");
