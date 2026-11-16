@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     [Header("Refs")]
     [SerializeField] private Projectile bullet;
     public EnemyMovement movement;
+    private EnemyAnimation animation;
 
     [Header("Config")]
     [SerializeField] private float attackCooldown = 1.0f;
@@ -20,6 +21,7 @@ public class Enemy : MonoBehaviour
     {
         health = GetComponent<Health>();
         movement = GetComponent<EnemyMovement>();
+        animation = GetComponent<EnemyAnimation>();
 
         health.OnTakeDamage += OnTakeDamage;
     }
@@ -51,6 +53,8 @@ public class Enemy : MonoBehaviour
                     var newBullet = Instantiate(bullet);
                     newBullet.Init(transform.position, (movement.Target.position - transform.position).normalized, gameObject, "Enemy");
                     attackTimer = 0.0f;
+
+                    animation.TriggerAnimation("Attack");
                 }
             }
             else

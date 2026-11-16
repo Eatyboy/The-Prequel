@@ -12,7 +12,8 @@ public class EnemyMovement : MonoBehaviour
     public Transform Target;
 
     // Vars
-    private Vector2 moveDir;
+    public Vector2 moveDir;
+    public Vector2 lookDir;
     public float distanceToTarget;
 
     // Refs
@@ -38,18 +39,17 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             Vector2 offsetToTarget = Target.position - transform.position;
-            moveDir = offsetToTarget.normalized;
+            lookDir = offsetToTarget.normalized;
+            moveDir = lookDir;
             distanceToTarget = offsetToTarget.magnitude;
         }
 
-        if (distanceToTarget > stopDistance)
+        if (distanceToTarget <= stopDistance)
         {
-            rb.linearVelocity = moveDir * speed;
+            moveDir = Vector2.zero;
         }
-        else
-        {
-            rb.linearVelocity = Vector2.zero;
-        }
+
+        rb.linearVelocity = moveDir * speed;
     }
 
     public void LockMovement(bool isLocked)
