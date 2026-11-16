@@ -10,9 +10,13 @@ using UnityEngine.UI;
 public class PlayerAbilities : MonoBehaviour
 {
     [Header("Prefabs")]
+    [SerializeField] private MeleeEffect meleeEffectPrefab;
+    [SerializeField] private Projectile rangedProjectilePrefab;
     [SerializeField] private MeleeEffect stunConePrefab;
     [SerializeField] private MeleeEffect batSwarmPrefab;
     [SerializeField] private MeleeEffect deathRefusalExplosionPrefab;
+
+    public bool IsAbilitiesLocked;
 
     // Refs
     private PlayerMovement movement;
@@ -89,19 +93,19 @@ public class PlayerAbilities : MonoBehaviour
         }
     }
 
-    public bool CanUse(PlayerAbility ability) => unlockedAbilities.HasFlag(ability) && !abilities[ability].onCooldown;
+    public bool CanUse(PlayerAbility ability) => !IsAbilitiesLocked && unlockedAbilities.HasFlag(ability) && !abilities[ability].onCooldown;
 
     private void Update()
     {
         if (primaryAttack.IsPressed() && CanUse(PlayerAbility.Claws))
         {
             abilities[PlayerAbility.Claws].GoOnCooldown();
-            attacks.PrimaryAttack(Player.Instance.LookDir);
+            PrimaryAttack(Player.Instance.LookDir);
         }
         if (secondaryAttack.WasPressedThisFrame() && CanUse(PlayerAbility.Projectile))
         {
             abilities[PlayerAbility.Projectile].GoOnCooldown();
-            attacks.SecondaryAttack(Player.Instance.LookDir);
+            SecondaryAttack(Player.Instance.LookDir);
         }
         if (ability1.WasPressedThisFrame() && CanUse(PlayerAbility.Stun))
         {
@@ -137,6 +141,7 @@ public class PlayerAbilities : MonoBehaviour
 
     public void DeathRefusal()
     {
+        LockAbilities(true);
         Player.Instance.health.SetIntangible(true);
         Player.Instance.health.CurrentHealth = 1;
         MeleeEffect deathRefuse = Instantiate(deathRefusalExplosionPrefab, transform);
@@ -144,16 +149,46 @@ public class PlayerAbilities : MonoBehaviour
         StartCoroutine(DeathRefuse(1.0f));
     }
 
+    public void LockAbilities(bool isLocked)
+    {
+        IsAbilitiesLocked = isLocked;
+    }
+
+    public IEnumerator LockAbilitiesIE(bool isLocked, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        IsAbilitiesLocked = isLocked;
+    }
+
+    // Claw melee
+    public void PrimaryAttack(Vector2 direction)
+    {
+        LockAbilities(true);
+        MeleeEffect meleeEffect = Instantiate(meleeEffectPrefab, transform);
+        meleeEffect.Init(transform.position + (Vector3)direction, direction, gameObject, "Player");
+        StartCoroutine(LockAbilitiesIE(false, meleeEffect.VisualDuration));
+    }
+
+    // Blood spike
+    public void SecondaryAttack(Vector2 direction)
+    {
+        Projectile projectile = Instantiate(rangedProjectilePrefab);
+        projectile.Init(transform.position + (Vector3)direction, direction, gameObject, "Player");
+    }
+
     // Cone stun
     private void AbilityOne()
     {
+        LockAbilities(false);
         MeleeEffect stunCone = Instantiate(stunConePrefab, transform);
         stunCone.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
+        StartCoroutine(LockAbilitiesIE(false, stunCone.VisualDuration));
     }
 
     // Bat swarm invulnerability
     private void AbilityTwo()
     {
+        LockAbilities(true);
         Player.Instance.health.SetIntangible(true);
         MeleeEffect batSwarm = Instantiate(batSwarmPrefab, transform);
         batSwarm.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
@@ -164,11 +199,13 @@ public class PlayerAbilities : MonoBehaviour
     {
         yield return new WaitForSeconds(duration);
         Player.Instance.health.SetIntangible(false);
+        LockAbilities(false);
     }
 
     private IEnumerator DeathRefuse(float duration)
     {
         yield return new WaitForSeconds(duration);
         Player.Instance.health.SetIntangible(false);
+        LockAbilities(false);
     }
 }

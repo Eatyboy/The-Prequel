@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8078798908996135217}
   - component: {fileID: 4840229810438465755}
-  - component: {fileID: 3438064663264169982}
   - component: {fileID: 7206518852014946525}
   - component: {fileID: 5586448984506317681}
   - component: {fileID: 6032291327507745240}
@@ -59,20 +58,6 @@ MonoBehaviour:
   abilities: {fileID: 0}
   movement: {fileID: 0}
   interactables: []
---- !u!114 &3438064663264169982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4427617297966100953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2743669bb0e1644f92ee61fb57681a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttacks
-  meleeEffectPrefab: {fileID: 5957657109047962385, guid: ad07bf138e0ff974e8fa66546ba6343a, type: 3}
-  rangedProjectilePrefab: {fileID: 2809413728665779919, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
 --- !u!114 &7206518852014946525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,9 +70,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd7639468247b0d4fabe097f9907eeb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAbilities
+  meleeEffectPrefab: {fileID: 5957657109047962385, guid: ad07bf138e0ff974e8fa66546ba6343a, type: 3}
+  rangedProjectilePrefab: {fileID: 2809413728665779919, guid: c829581d68e898548ae30d86a7c1347b, type: 3}
   stunConePrefab: {fileID: 5957657109047962385, guid: 9ce345a592c6dd34e987381e4a9e8a10, type: 3}
   batSwarmPrefab: {fileID: 5957657109047962385, guid: 659fe07d9956a2b41bbba73db1fc8ccd, type: 3}
   deathRefusalExplosionPrefab: {fileID: 5957657109047962385, guid: fac683536b6222c40822c7a7e3cd6c75, type: 3}
+  IsAbilitiesLocked: 0
   unlockedAbilities: 0
   abilities:
   - key: 1
