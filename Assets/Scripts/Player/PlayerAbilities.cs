@@ -136,6 +136,8 @@ public class PlayerAbilities : MonoBehaviour
         if (abilityIndicators.TryGetValue(ability, out var indicator))
         {
             indicator.gameObject.SetActive(true);
+            indicator.GetComponentInParent<ManualHorizontalLayoutGroup>().ApplyLayout();
+            indicator.DoStartAnimation();
         }
     }
 
