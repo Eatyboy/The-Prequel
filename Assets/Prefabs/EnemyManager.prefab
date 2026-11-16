@@ -49,6 +49,6 @@ MonoBehaviour:
   enemyHealthBarPrefab: {fileID: 2291318454988538078, guid: e276c348a39be9a4982136b3b570dc7f, type: 3}
   spawnDelaySeconds: 5
   spawnDistanceRange: {x: 10, y: 15}
-  enemyHealthBarOffset: {x: 0, y: 1}
+  enemyHealthBarOffset: {x: 0, y: 1.5}
   enemies: []
   shouldSpawnEnemies: 1

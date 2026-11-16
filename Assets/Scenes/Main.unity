@@ -776,7 +776,7 @@ Transform:
   m_GameObject: {fileID: 894071382}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 3.72, y: -2.41, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -877,6 +877,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3424610232416469142, guid: c19dfc4f60a5086408e48382c17d1773, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4741123384392020332, guid: c19dfc4f60a5086408e48382c17d1773, type: 3}
       propertyPath: m_Name
       value: HealthbarCanvas
@@ -1190,7 +1194,7 @@ Transform:
   m_GameObject: {fileID: 1492798816}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 3.72, y: -2.41, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2057,17 +2061,13 @@ PrefabInstance:
       propertyPath: abilities.Array.data[2].value.cooldown
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7586365651011228977, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 6346908727183566851, guid: 40bf5998a8431d64b90a87d41884172e, type: 3}
     - target: {fileID: 8078798908996135217, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.72
       objectReference: {fileID: 0}
     - target: {fileID: 8078798908996135217, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -2.41
       objectReference: {fileID: 0}
     - target: {fileID: 8078798908996135217, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: m_LocalPosition.z
