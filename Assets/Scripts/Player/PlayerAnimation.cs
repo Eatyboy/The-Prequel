@@ -24,7 +24,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (!isDirectionLocked) UpdateDirections();
 
-        if (playerMovement.moveDir != Vector2.zero)
+        if (!playerMovement.isMovementLocked && playerMovement.moveDir != Vector2.zero)
         {
             state = "Walk";
         }

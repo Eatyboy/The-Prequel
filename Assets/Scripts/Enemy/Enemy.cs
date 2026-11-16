@@ -85,7 +85,14 @@ public class Enemy : MonoBehaviour
         Player.Instance.onKill.Invoke();
         Destroy(health.healthBar.gameObject);
         animation.TriggerAnimation("Death", false);
-        await UniTask.WaitForSeconds(10.0f);
+        try
+        {
+            await UniTask.WaitForSeconds(10.0f, cancellationToken: this.GetCancellationTokenOnDestroy());
+        }
+        catch
+        {
+
+        }
         Destroy(gameObject);
     }
 

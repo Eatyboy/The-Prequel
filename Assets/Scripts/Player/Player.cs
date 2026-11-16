@@ -116,6 +116,7 @@ public class Player : Singleton<Player>
         }
         else
         {
+            health.OnDeath -= PlayerDeath;
             IsDead = true;
             GetComponent<CapsuleCollider2D>().enabled = false;
             GetComponent<PlayerMovement>().enabled = false;
@@ -123,12 +124,13 @@ public class Player : Singleton<Player>
             GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
             anim.TriggerAnimation("Death", false);
             await UniTask.WaitForSeconds(3.0f);
-            SceneManager.LoadScene("Main");
+            SceneManager.LoadScene("Menu");
         }
     }
 
     public void OpenCoffin()
     {
+        anim.TriggerAnimation("IdleDown", false);
         abilities.LockAbilities(true);
         movement.LockMovement(true);
         health.SetIntangible(true);
@@ -153,9 +155,6 @@ public class Player : Singleton<Player>
         abilities.LockAbilities(false);
         movement.LockMovement(false);
         anim.LockDirection(false);
-
-        await UniTask.WaitForSeconds(0.1f);
-
         health.SetIntangible(false);
     }
 }

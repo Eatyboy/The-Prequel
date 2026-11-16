@@ -42,15 +42,22 @@ public class EnemyManager : Singleton<EnemyManager>
     {
         foreach (var wave in enemyWaves)
         {
-            await UniTask.WaitForSeconds(wave.initialDelay, cancellationToken: ct);
-            foreach (var group in wave.spawnGroups)
+            try
             {
-                for (int enemyIndex = 0; enemyIndex < group.amount; enemyIndex++)
+                await UniTask.WaitForSeconds(wave.initialDelay, cancellationToken: this.GetCancellationTokenOnDestroy());
+                foreach (var group in wave.spawnGroups)
                 {
-                    enemies.Add(SpawnEnemy(group.enemy));
-                    await UniTask.WaitForSeconds(group.delayBetweenEnemySpawns, cancellationToken: ct);
+                    for (int enemyIndex = 0; enemyIndex < group.amount; enemyIndex++)
+                    {
+                        enemies.Add(SpawnEnemy(group.enemy));
+                        await UniTask.WaitForSeconds(group.delayBetweenEnemySpawns, cancellationToken: this.GetCancellationTokenOnDestroy());
+                    }
+                    await UniTask.WaitForSeconds(group.delayUntilNextSpawnGroup, cancellationToken: this.GetCancellationTokenOnDestroy());
                 }
-                await UniTask.WaitForSeconds(group.delayUntilNextSpawnGroup, cancellationToken: ct);
+            }
+            catch
+            {
+
             }
         }
     }

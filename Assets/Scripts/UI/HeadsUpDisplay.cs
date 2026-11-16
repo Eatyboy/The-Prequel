@@ -20,6 +20,7 @@ public class HeadsUpDisplay : Singleton<HeadsUpDisplay>
 
     public void Interact(Transform gameObject)
     {
+        if (interactPrompt == null) return;
         if (gameObject == null)
         {
             interactPrompt.gameObject.SetActive(false);
