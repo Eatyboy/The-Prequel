@@ -150,12 +150,13 @@ public class PlayerAbilities : MonoBehaviour
     public void LockAbilities(bool isLocked)
     {
         IsAbilitiesLocked = isLocked;
+        Player.Instance.LockInteract(isLocked);
     }
 
     public IEnumerator LockAbilitiesIE(bool isLocked, float delay)
     {
         yield return new WaitForSeconds(delay);
-        IsAbilitiesLocked = isLocked;
+        LockAbilities(isLocked);
     }
 
     // Claw melee

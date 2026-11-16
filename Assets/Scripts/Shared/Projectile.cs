@@ -82,7 +82,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void Die()
+    public void Die()
     {
         Destroy(gameObject);
     }

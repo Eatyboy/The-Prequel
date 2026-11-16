@@ -27,6 +27,8 @@ public class Player : Singleton<Player>
     [HideInInspector] public PlayerMovement movement;
     [HideInInspector] public List<Interactable> interactables = new();
 
+    public bool IsInteractLocked;
+
     private InputAction interactAction;
 
     // Actions
@@ -60,6 +62,7 @@ public class Player : Singleton<Player>
 
     private void Interact()
     {
+        if (IsInteractLocked) return;
         if (interactables.Count > 0)
         {
             interactables[^1].OnInteract?.Invoke();
@@ -71,7 +74,7 @@ public class Player : Singleton<Player>
         if (collision.CompareTag("Interactable"))
         {
             interactables.Add(collision.GetComponent<Interactable>());
-            HeadsUpDisplay.Instance.Interact(interactables[^1].transform);
+            UpdateInteractPopup();
         }
     }
 
@@ -80,14 +83,26 @@ public class Player : Singleton<Player>
         if (collision.CompareTag("Interactable"))
         {
             interactables.Remove(collision.GetComponent<Interactable>());
-            if (interactables.Count > 0)
-            {
-                HeadsUpDisplay.Instance.Interact(interactables[^1].transform);
-            }
-            else
-            {
-                HeadsUpDisplay.Instance.Interact(null);
-            }
+            UpdateInteractPopup();
+        }
+    }
+
+    public void LockInteract(bool isLocked)
+    {
+        IsInteractLocked = isLocked;
+
+        UpdateInteractPopup();
+    }
+
+    private void UpdateInteractPopup()
+    {
+        if (!IsInteractLocked && interactables.Count > 0)
+        {
+            HeadsUpDisplay.Instance.Interact(interactables[^1].transform);
+        }
+        else
+        {
+            HeadsUpDisplay.Instance.Interact(null);
         }
     }
 

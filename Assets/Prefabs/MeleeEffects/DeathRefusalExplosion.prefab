@@ -50,10 +50,12 @@ MonoBehaviour:
   LifestealFactor: 1
   Source: {fileID: 0}
   IgnoreTag: Player
+  BloodCost: 0
   StunDuration: 0
   RotationSpeed: 0
   IsMultihit: 0
   MultihitInterval: 0
+  CanDestroyProjectiles: 1
   VisualDuration: 0.5
   HurtDuration: 0.5
 --- !u!70 &8953821012552650016

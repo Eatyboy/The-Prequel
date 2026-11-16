@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -15,6 +16,7 @@ public class MeleeEffect : MonoBehaviour
     public float RotationSpeed;
     public bool IsMultihit;
     public float MultihitInterval;
+    public bool CanDestroyProjectiles;
 
     public float VisualDuration;
     public float HurtDuration;
@@ -46,6 +48,24 @@ public class MeleeEffect : MonoBehaviour
             if (Source.TryGetComponent(out Health health))
             {
                 health.TakeDamage(BloodCost);
+            }
+        }
+
+        // NOTE: Very scuffed cause both are triggers, only used for death refusal
+        if (CanDestroyProjectiles)
+        {
+            if (TryGetComponent(out CapsuleCollider2D col))
+            {
+                float dst = Mathf.Min(col.size.x, col.size.y);
+                List<Projectile> allProjectiles = FindObjectsByType<Projectile>().ToList();
+
+                foreach (Projectile projectile in allProjectiles)
+                {
+                    if (Vector3.Distance(transform.position, projectile.transform.position) < dst)
+                    {
+                        projectile.Die();
+                    }
+                }
             }
         }
     }
