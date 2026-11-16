@@ -1947,6 +1947,10 @@ PrefabInstance:
       propertyPath: abilityIndicators.Array.data[5].value
       value: 
       objectReference: {fileID: 1277354329}
+    - target: {fileID: 7206518852014946525, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
+      propertyPath: abilities.Array.data[2].value.cooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7586365651011228977, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: m_Sprite
       value: 
