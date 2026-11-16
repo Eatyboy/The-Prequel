@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using NUnit.Framework;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -138,9 +139,15 @@ public class Player : Singleton<Player>
     {
         anim.TriggerAnimation("Stake", false);
 
+        await UniTask.WaitForSeconds(0.2f);
+
         abilities.Unlock(unlocks);
 
-        await UniTask.WaitForSeconds(0.9f);
+        await UniTask.WaitForSeconds(0.1f);
+
+        GetComponent<CinemachineImpulseSource>().GenerateImpulse();
+
+        await UniTask.WaitForSeconds(0.6f);
 
         anim.EndTriggerAnimation();
         abilities.LockAbilities(false);
