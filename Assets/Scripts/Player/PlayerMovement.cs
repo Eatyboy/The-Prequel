@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         float dashTimer = 0.0f;
         Vector2 initialDirection = moveDir;
         rb.linearVelocity = dashSpeed * initialDirection;
-        rb.excludeLayers |= enemyLayerMask | foregroundLayerMask;
+        GoIntangible();
         HashSet<Collider2D> enemiesHit = new();
 
         while (dashTimer < dashDuration)
@@ -75,8 +75,18 @@ public class PlayerMovement : MonoBehaviour
 
             await UniTask.WaitForFixedUpdate(cancellationToken: default);
         }
-        
-        rb.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
+
+        StopIntangibility();
         isDashing = false;
+    }
+
+    public void GoIntangible()
+    {
+        col.excludeLayers |= enemyLayerMask | foregroundLayerMask;
+    }
+
+    public void StopIntangibility()
+    {
+        col.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
     }
 }

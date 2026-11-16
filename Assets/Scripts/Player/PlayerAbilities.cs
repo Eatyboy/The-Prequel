@@ -196,7 +196,9 @@ public class PlayerAbilities : MonoBehaviour
 
     private IEnumerator BatSwarm(float duration)
     {
+        movement.GoIntangible();
         yield return new WaitForSeconds(duration);
+        movement.StopIntangibility();
         Player.Instance.health.SetIntangible(false);
         LockAbilities(false);
     }
