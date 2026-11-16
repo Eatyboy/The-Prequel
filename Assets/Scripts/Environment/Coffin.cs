@@ -24,8 +24,9 @@ public class Coffin : MonoBehaviour
             return;
         }
 
+        GetComponent<Collider2D>().enabled = false;
         GetComponent<Interactable>().Enable(false);
-        Player.Instance.abilities.Unlock(unlocks);
+        Player.Instance.GainPower(unlocks);
         isOpened = true;
         Debug.Log($"Unlocked {unlocks}!");
     }

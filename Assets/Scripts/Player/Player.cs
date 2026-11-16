@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using NUnit.Framework;
 using UnityEngine;
@@ -78,6 +79,7 @@ public class Player : Singleton<Player>
     {
         if (collision.CompareTag("Interactable"))
         {
+            if (interactables.Contains(collision.GetComponent<Interactable>())) return;
             interactables.Add(collision.GetComponent<Interactable>());
             UpdateInteractPopup();
         }
@@ -129,5 +131,20 @@ public class Player : Singleton<Player>
             await UniTask.WaitForSeconds(3.0f);
             SceneManager.LoadScene("Main");
         }
+    }
+
+    public async Task GainPower(PlayerAbility unlocks)
+    {
+        abilities.Unlock(unlocks);
+        anim.TriggerAnimation("Stake", false);
+        abilities.LockAbilities(true);
+        movement.LockMovement(true);
+        health.SetIntangible(true);
+        await UniTask.WaitForSeconds(0.9f);
+        anim.EndTriggerAnimation();
+        abilities.LockAbilities(false);
+        movement.LockMovement(false);
+        await UniTask.WaitForSeconds(0.1f);
+        health.SetIntangible(false);
     }
 }

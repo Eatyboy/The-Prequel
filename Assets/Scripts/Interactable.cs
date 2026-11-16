@@ -31,7 +31,15 @@ public class Interactable : MonoBehaviour
         IsDisabled = !isEnabled;
         if (IsDisabled)
         {
+            foreach (var interact in Player.Instance.interactables)
+            {
+                Debug.Log(interact.gameObject.name);
+            }
             Player.Instance.interactables.Remove(this);
+            foreach (var interact in Player.Instance.interactables)
+            {
+                Debug.Log(interact.gameObject.name);
+            }
             if (Player.Instance.interactables.Count > 0)
             {
                 HeadsUpDisplay.Instance.Interact(Player.Instance.interactables[^1].transform);
@@ -40,6 +48,7 @@ public class Interactable : MonoBehaviour
             {
                 HeadsUpDisplay.Instance.Interact(null);
             }
+            enabled = false;
         }
     }
 }
