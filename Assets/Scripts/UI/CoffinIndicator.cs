@@ -1,4 +1,3 @@
-using Unity.Tutorials.Editor;
 using UnityEngine;
 
 public class CoffinIndicator : MonoBehaviour
@@ -38,23 +37,20 @@ public class CoffinIndicator : MonoBehaviour
             }
             else
             {
-                Vector2 displacement = coffin.transform.position - Player.Instance.transform.position;
-                Vector2 pointOnCamRectCircumscribedCircle = 0.5f * Mathf.Sqrt(2) * displacement.normalized;
-                Vector2 normalizedViewportPosition = new(
-                    0.5f + Mathf.Clamp(pointOnCamRectCircumscribedCircle.x, -0.5f, 0.5f),
-                    0.5f + Mathf.Clamp(pointOnCamRectCircumscribedCircle.y, -0.5f, 0.5f)
-                );
-                Vector2 screenPos = Camera.main.ViewportToScreenPoint(normalizedViewportPosition);
+                Vector2 fromCenter = coffinViewportPos - new Vector2(0.5f, 0.5f);
+                float scale = 0.5f / Mathf.Max(Mathf.Abs(fromCenter.x), Mathf.Abs(fromCenter.y));
+                Vector2 viewportEdge = new Vector2(0.5f, 0.5f) + scale * fromCenter;
+                Vector2 screenPos = Camera.main.ViewportToScreenPoint(viewportEdge);
 
                 Vector2 boundedScreenPos = new(
-                    screenPos.x - ((Mathf.Sign(displacement.x) < 0) ? -offsetFromBorder.x : offsetFromBorder.x),
-                    screenPos.y - ((Mathf.Sign(displacement.y) < 0) ? -offsetFromBorder.y : offsetFromBorder.y)
+                    Mathf.Clamp(screenPos.x, offsetFromBorder.x, Screen.width - offsetFromBorder.x),
+                    Mathf.Clamp(screenPos.y, offsetFromBorder.y, Screen.height - offsetFromBorder.y)
                 );
                 transform.position = boundedScreenPos;
 
-                ;
-                float angle = Mathf.Atan2(displacement.y, displacement.x) * Mathf.Rad2Deg;
-                arrow.SetLocalPositionAndRotation(arrow.localPosition = baseArrowDistance * displacement.normalized, Quaternion.Euler(0, 0, angle));
+                Vector2 dir = new Vector2(fromCenter.x * Screen.width, fromCenter.y * Screen.height).normalized;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                arrow.SetLocalPositionAndRotation(baseArrowDistance * dir, Quaternion.Euler(0, 0, angle));
             }
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(PlayerAbilities)), RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(CircleCollider2D))]
+[RequireComponent(typeof(PlayerAbilities)), RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Config")]
@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
 
     // Refs
     private InputAction moveAction;
-    private CircleCollider2D circleCol;
     private CapsuleCollider2D capsuleCol;
     private Rigidbody2D rb;
     private PlayerAbilities abilities;
@@ -25,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask foregroundLayerMask;
 
     [Header("Dash")]
+    [SerializeField] private float dashDamageRadius = 1.0f;
     [SerializeField] private float dashDistance = 3.0f;
     [SerializeField] private float dashDuration = 0.5f;
     private float dashSpeed => dashDistance / dashDuration;
@@ -37,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
     {
         moveAction = InputSystem.actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
-        circleCol = GetComponent<CircleCollider2D>();
         capsuleCol = GetComponent<CapsuleCollider2D>();
         abilities = GetComponent<PlayerAbilities>();
         anim = GetComponent<PlayerAnimation>();
@@ -75,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         {
             dashTimer += Time.fixedDeltaTime;
 
-            var enemyColliders = Physics2D.OverlapCircleAll(transform.position, circleCol.radius, enemyLayerMask);
+            var enemyColliders = Physics2D.OverlapCircleAll(transform.position, dashDamageRadius, enemyLayerMask);
             foreach (var enemyCol in enemyColliders)
             {
                 if (enemiesHit.Contains(enemyCol)) continue;
@@ -100,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void GoIntangible(bool isInvisible = false)
     {
-        circleCol.excludeLayers |= enemyLayerMask | foregroundLayerMask;
         capsuleCol.excludeLayers |= enemyLayerMask | foregroundLayerMask;
         if (isInvisible)
         {
@@ -113,7 +111,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void StopIntangibility()
     {
-        circleCol.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
         capsuleCol.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
         foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
         {

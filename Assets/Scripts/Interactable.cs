@@ -1,5 +1,4 @@
 using System;
-using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
@@ -12,17 +11,20 @@ public class Interactable : MonoBehaviour
 
     private void Awake()
     {
-        if (!TryGetComponent<Collider2D>(out _))
+        gameObject.layer = InteractionZone.InteractionLayer;
+
+        if (!TryGetComponent<Collider2D>(out var col))
         {
-            var newCollider = gameObject.AddComponent<CircleCollider2D>();
-            newCollider.radius = DEFAULT_INTERACT_RADIUS;
-            newCollider.isTrigger = true;
+            var circle = gameObject.AddComponent<CircleCollider2D>();
+            circle.radius = DEFAULT_INTERACT_RADIUS;
+            col = circle;
         }
+        col.isTrigger = true;
     }
 
     public void Interact()
     {
-        if (isInteractable) OnInteract.Invoke();
+        if (isInteractable && !IsDisabled) OnInteract?.Invoke();
     }
 
     public void Enable(bool isEnabled)
@@ -31,15 +33,7 @@ public class Interactable : MonoBehaviour
         IsDisabled = !isEnabled;
         if (IsDisabled)
         {
-            Player.Instance.interactables.Remove(this);
-            if (Player.Instance.interactables.Count > 0)
-            {
-                HeadsUpDisplay.Instance.Interact(Player.Instance.interactables[^1].transform);
-            }
-            else
-            {
-                HeadsUpDisplay.Instance.Interact(null);
-            }
+            Player.Instance.RemoveInteractable(this);
         }
     }
 }

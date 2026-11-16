@@ -1,8 +1,9 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Interactable))]
 public class Coffin : MonoBehaviour
 {
+    [SerializeField] private Interactable interactable;
+
     public PlayerAbility unlocks;
     public bool isOpened = false;
 
@@ -13,7 +14,8 @@ public class Coffin : MonoBehaviour
 
     private void Awake()
     {
-        GetComponent<Interactable>().OnInteract += OpenCoffin;
+        if (interactable == null) interactable = GetComponentInChildren<Interactable>();
+        interactable.OnInteract += OpenCoffin;
     }
 
     private async void OpenCoffin()
@@ -24,7 +26,7 @@ public class Coffin : MonoBehaviour
             return;
         }
 
-        GetComponent<Interactable>().Enable(false);
+        interactable.Enable(false);
         Player.Instance.abilities.Unlock(unlocks);
         isOpened = true;
         Debug.Log($"Unlocked {unlocks}!");

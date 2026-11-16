@@ -211,6 +211,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Death Refusal CoffinIndicator
       objectReference: {fileID: 0}
+    - target: {fileID: 3970889984110741089, guid: 61981aed84629d3409623c050678dd45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 843d03194a702e6459297975558d51e8, type: 3}
     - target: {fileID: 8888052656147765890, guid: 61981aed84629d3409623c050678dd45, type: 3}
       propertyPath: coffin
       value: 
@@ -456,15 +460,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.b
-      value: 0.335849
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.g
-      value: 0.335849
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.r
-      value: 0.335849
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107194,6 +107198,10 @@ PrefabInstance:
       propertyPath: unlocks
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6081586679840499563, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7105287034758066673, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.6908
@@ -107233,6 +107241,18 @@ PrefabInstance:
     - target: {fileID: 7105287034758066673, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -107323,11 +107343,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.r
@@ -107543,6 +107563,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bat Swarm CoffinIndicator
       objectReference: {fileID: 0}
+    - target: {fileID: 3970889984110741089, guid: 61981aed84629d3409623c050678dd45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a78ccf8675b555c42aea355ca8cc8796, type: 3}
     - target: {fileID: 8888052656147765890, guid: 61981aed84629d3409623c050678dd45, type: 3}
       propertyPath: coffin
       value: 
@@ -107707,15 +107731,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.b
-      value: 0.8154726
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.g
-      value: 0.84276724
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.r
-      value: 0.15636243
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -108051,11 +108075,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.g
-      value: 0.8445153
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7226256078500651532, guid: 6ac22176059a55a4ab2ddb3797d8b3a5, type: 3}
       propertyPath: m_Color.r
@@ -108158,6 +108182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stun CoffinIndicator
       objectReference: {fileID: 0}
+    - target: {fileID: 3970889984110741089, guid: 61981aed84629d3409623c050678dd45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 638c647b9e4939d478d7955244673aec, type: 3}
     - target: {fileID: 8888052656147765890, guid: 61981aed84629d3409623c050678dd45, type: 3}
       propertyPath: coffin
       value: 
@@ -108795,6 +108823,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blood Spike CoffinIndicator
       objectReference: {fileID: 0}
+    - target: {fileID: 3970889984110741089, guid: 61981aed84629d3409623c050678dd45, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b3c75de0fe73cdc47b246b7550d52472, type: 3}
     - target: {fileID: 8888052656147765890, guid: 61981aed84629d3409623c050678dd45, type: 3}
       propertyPath: coffin
       value: 
@@ -109543,6 +109575,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3865826065943316367, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4373478402136127348, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: healthBar
       value: 
@@ -109550,6 +109586,14 @@ PrefabInstance:
     - target: {fileID: 4427617297966100953, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4427617297966100953, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4809105072006344104, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5586448984506317681, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: dashDuration

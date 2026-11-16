@@ -65,26 +65,20 @@ public class Player : Singleton<Player>
         if (IsInteractLocked) return;
         if (interactables.Count > 0)
         {
-            interactables[^1].OnInteract?.Invoke();
+            interactables[^1].Interact();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void AddInteractable(Interactable interactable)
     {
-        if (collision.CompareTag("Interactable"))
-        {
-            interactables.Add(collision.GetComponent<Interactable>());
-            UpdateInteractPopup();
-        }
+        if (interactable.IsDisabled || interactables.Contains(interactable)) return;
+        interactables.Add(interactable);
+        UpdateInteractPopup();
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void RemoveInteractable(Interactable interactable)
     {
-        if (collision.CompareTag("Interactable"))
-        {
-            interactables.Remove(collision.GetComponent<Interactable>());
-            UpdateInteractPopup();
-        }
+        if (interactables.Remove(interactable)) UpdateInteractPopup();
     }
 
     public void LockInteract(bool isLocked)
