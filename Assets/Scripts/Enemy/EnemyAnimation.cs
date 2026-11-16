@@ -7,6 +7,7 @@ public class EnemyAnimation : MonoBehaviour
 
     private Animator animator;
     private EnemyMovement enemyMovement;
+    private Enemy enemy;
 
     private bool isTriggeredAnim;
 
@@ -14,10 +15,13 @@ public class EnemyAnimation : MonoBehaviour
     {
         animator = GetComponentInChildren<Animator>();
         enemyMovement = GetComponent<EnemyMovement>();
+        enemy = GetComponent<Enemy>();
     }
 
     private void Update()
     {
+        if (enemy.IsDead) return;
+
         if (Mathf.Abs(enemyMovement.lookDir.y) > Mathf.Abs(enemyMovement.lookDir.x))
         {
             if (enemyMovement.lookDir.y < 0)
@@ -66,7 +70,6 @@ public class EnemyAnimation : MonoBehaviour
     public void TriggerAnimation(string name, bool directional = true)
     {
         animator.Play($"{name}{(directional ? direction : "")}");
-        Debug.Log($"{name}{(directional ? direction : "")}");
         isTriggeredAnim = true;
     }
 }

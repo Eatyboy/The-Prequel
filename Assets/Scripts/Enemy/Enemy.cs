@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -5,6 +6,7 @@ public class Enemy : MonoBehaviour
     public Health health;
 
     public bool IsStunned;
+    public bool IsDead;
 
     private float stunCountdown;
 
@@ -33,6 +35,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (IsDead) return;
         health.healthBar.transform.position = (Vector2)transform.position + EnemyManager.Instance.enemyHealthBarOffset;
         if (IsStunned)
         {
@@ -73,10 +76,16 @@ public class Enemy : MonoBehaviour
         movement.LockMovement(true);
     }
 
-    private void Die()
+    private async void Die()
     {
+        IsDead = true;
+        GetComponent<CapsuleCollider2D>().enabled = false;
+        GetComponent<EnemyMovement>().enabled = false;
+        GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
         Player.Instance.onKill.Invoke();
         Destroy(health.healthBar.gameObject);
+        animation.TriggerAnimation("Death", false);
+        await UniTask.WaitForSeconds(10.0f);
         Destroy(gameObject);
     }
 
