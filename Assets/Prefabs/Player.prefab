@@ -38,6 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3289223412502860059}
+  - {fileID: 6397960788685681357}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4840229810438465755
@@ -150,8 +151,8 @@ MonoBehaviour:
   foregroundLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  dashDistance: 3
-  dashDuration: 0.2
+  dashDistance: 6
+  dashDuration: 0.6
   dashDamage: 15
   isDashing: 0
 --- !u!114 &6032291327507745240
@@ -166,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32d4684f9e65c75489bb01e20af67e6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimation
+  animator: {fileID: 0}
 --- !u!114 &4373478402136127348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,8 +314,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6397960788685681357}
+  m_Children: []
   m_Father: {fileID: 8078798908996135217}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7586365651011228977

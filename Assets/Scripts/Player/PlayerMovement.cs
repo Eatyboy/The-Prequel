@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerAbilities)), RequireComponent(typeof(Rigidbody2D)), RequireComponent(typeof(CircleCollider2D))]
 public class PlayerMovement : MonoBehaviour
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private CapsuleCollider2D capsuleCol;
     private Rigidbody2D rb;
     private PlayerAbilities abilities;
+    private PlayerAnimation anim;
 
     [SerializeField] private LayerMask enemyLayerMask;
     [SerializeField] private LayerMask foregroundLayerMask;
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashDamage = 2.0f;
 
     public bool isDashing = false;
+    public bool isMovementLocked;
 
     private void Awake()
     {
@@ -37,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
         circleCol = GetComponent<CircleCollider2D>();
         capsuleCol = GetComponent<CapsuleCollider2D>();
         abilities = GetComponent<PlayerAbilities>();
+        anim = GetComponent<PlayerAnimation>();
     }
 
     private void Update()
@@ -46,6 +50,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isMovementLocked)
+        {
+            moveDir = Vector2.zero;
+        }
+
         if (!isDashing)
         {
             rb.linearVelocity = moveDir * speed;
@@ -55,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
     public async void Dash()
     {
         isDashing = true;
+        anim.TriggerAnimation("Dash");
         float dashTimer = 0.0f;
         Vector2 initialDirection = moveDir;
         rb.linearVelocity = dashSpeed * initialDirection;
@@ -80,17 +90,34 @@ public class PlayerMovement : MonoBehaviour
 
         StopIntangibility();
         isDashing = false;
+        anim.EndTriggerAnimation();
     }
 
-    public void GoIntangible()
+    public void LockMovement(bool isLocked)
+    {
+        isMovementLocked = isLocked;
+    }
+
+    public void GoIntangible(bool isInvisible = false)
     {
         circleCol.excludeLayers |= enemyLayerMask | foregroundLayerMask;
         capsuleCol.excludeLayers |= enemyLayerMask | foregroundLayerMask;
+        if (isInvisible)
+        {
+            foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+            {
+                sr.enabled = false;
+            }
+        }
     }
 
     public void StopIntangibility()
     {
         circleCol.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
         capsuleCol.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
+        foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
+        {
+            sr.enabled = true;
+        }
     }
 }

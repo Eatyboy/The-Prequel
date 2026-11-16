@@ -2772,6 +2772,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5586448984506317681, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
+      propertyPath: dashDuration
+      value: 0.67
+      objectReference: {fileID: 0}
     - target: {fileID: 7206518852014946525, guid: bbe0b87eb2e8f7e47a54b69ed7525763, type: 3}
       propertyPath: abilityIndicators.Array.size
       value: 6

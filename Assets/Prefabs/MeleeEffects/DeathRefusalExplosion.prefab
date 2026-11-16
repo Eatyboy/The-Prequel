@@ -56,8 +56,8 @@ MonoBehaviour:
   IsMultihit: 0
   MultihitInterval: 0
   CanDestroyProjectiles: 1
-  VisualDuration: 0.5
-  HurtDuration: 0.5
+  VisualDuration: 1
+  HurtDuration: 1
 --- !u!70 &8953821012552650016
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.7607843}
+  m_Color: {r: 0.6301887, g: 0, b: 0, a: 0.31764707}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1

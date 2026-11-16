@@ -59,6 +59,5 @@ public class Health : MonoBehaviour
     public void SetIntangible(bool invulerable)
     {
         IsIntangible = invulerable;
-        GetComponentInChildren<SpriteRenderer>().color = invulerable ? new Color(1f, 1f, 1f, 0.1f) : Color.white;
     }
 }

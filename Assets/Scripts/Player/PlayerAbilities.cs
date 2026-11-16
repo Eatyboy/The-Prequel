@@ -20,6 +20,7 @@ public class PlayerAbilities : MonoBehaviour
 
     // Refs
     private PlayerMovement movement;
+    private PlayerAnimation anim;
 
     // Actions
     private InputAction primaryAttack;
@@ -67,6 +68,7 @@ public class PlayerAbilities : MonoBehaviour
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
+        anim = GetComponent<PlayerAnimation>();
         
         primaryAttack = InputSystem.actions.FindAction("PrimaryAttack");
         secondaryAttack = InputSystem.actions.FindAction("SecondaryAttack");
@@ -140,10 +142,14 @@ public class PlayerAbilities : MonoBehaviour
     public void DeathRefusal()
     {
         LockAbilities(true);
+        movement.LockMovement(true);
+        anim.TriggerAnimation("Revive", false);
         Player.Instance.health.SetIntangible(true);
         Player.Instance.health.CurrentHealth = 1;
         MeleeEffect deathRefuse = Instantiate(deathRefusalExplosionPrefab, transform);
         deathRefuse.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
+        //StartCoroutine(DeathRefuse(anim.animator.GetCurrentAnimatorClipInfo(0)[0].clip.length));
+        // TODO: Hardcoded cause current clip doesn't get updated immediately
         StartCoroutine(DeathRefuse(1.0f));
     }
 
@@ -196,7 +202,7 @@ public class PlayerAbilities : MonoBehaviour
 
     private IEnumerator BatSwarm(float duration)
     {
-        movement.GoIntangible();
+        movement.GoIntangible(true);
         yield return new WaitForSeconds(duration);
         movement.StopIntangibility();
         Player.Instance.health.SetIntangible(false);
@@ -208,5 +214,7 @@ public class PlayerAbilities : MonoBehaviour
         yield return new WaitForSeconds(duration);
         Player.Instance.health.SetIntangible(false);
         LockAbilities(false);
+        anim.EndTriggerAnimation();
+        movement.LockMovement(false);
     }
 }
