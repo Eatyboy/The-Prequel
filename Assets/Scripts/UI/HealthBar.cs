@@ -1,18 +1,66 @@
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
 public class HealthBar : MonoBehaviour
 {
-    private Image image;
+    [Header("Refs")]
+    [SerializeField] private Image fill;
+    [SerializeField] private Image laggedFill;
 
-    private void Awake()
+    [Header("Config")]
+    [SerializeField] private float fillLagDuration = 0.3f;
+    [SerializeField] private AnimationCurve fillLagCurve;
+
+    private CancellationTokenSource cts;
+
+    private void Start()
     {
-        image = GetComponent<Image>();
+        fill.fillAmount = 1;
+        laggedFill.fillAmount = 1;
     }
 
-    public void SetHealth(float proportion)
+    public void Init(float proportion)
     {
-        image.fillAmount = proportion;
+        fill.fillAmount = proportion;
+        laggedFill.fillAmount = proportion;
+    }
+
+    public async void SetHealth(float proportion)
+    {
+        cts?.Cancel();
+        cts?.Dispose();
+        cts = new();
+
+        float oldFillAmount = fill.fillAmount;
+        fill.fillAmount = proportion;
+
+        float timer = 0.0f;
+        while (timer < fillLagDuration)
+        {
+            timer += Time.deltaTime;
+
+            float t = fillLagCurve.Evaluate(Mathf.Clamp01(timer / fillLagDuration));
+            laggedFill.fillAmount = Mathf.Lerp(oldFillAmount, fill.fillAmount, t);
+
+            // This is so we don't get an error when it gets cancelled
+            try
+            {
+                await UniTask.NextFrame(cts.Token);
+            }
+            catch 
+            { 
+                return; 
+            }
+        }
+
+        laggedFill.fillAmount = fill.fillAmount;
+    }
+
+    private void OnDestroy()
+    {
+        cts?.Cancel();
+        cts?.Dispose();
     }
 }

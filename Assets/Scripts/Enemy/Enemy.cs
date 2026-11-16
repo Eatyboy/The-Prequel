@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         health = GetComponent<Health>();
         movement = GetComponent<EnemyMovement>();
 
-        health.OnTakeDamage += amount => OnTakeDamage(amount);
+        health.OnTakeDamage += OnTakeDamage;
     }
 
     private void Start()
@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        health.healthBar.transform.position = (Vector2)transform.position + EnemyManager.Instance.enemyHealthBarOffset;
         if (IsStunned)
         {
             stunCountdown = Mathf.Max(stunCountdown - Time.deltaTime, 0.0f);
@@ -71,6 +72,7 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         Player.Instance.onKill.Invoke();
+        Destroy(health.healthBar.gameObject);
         Destroy(gameObject);
     }
 

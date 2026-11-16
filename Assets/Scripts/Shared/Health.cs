@@ -16,7 +16,12 @@ public class Health : MonoBehaviour
     public float Percent => Mathf.Clamp01(CurrentHealth / MaxHealth);
 
     // Refs
-    [SerializeField] private HealthBar healthBar;
+    public HealthBar healthBar;
+
+    public void Start()
+    {
+        healthBar.Init(CurrentHealth / MaxHealth);
+    }
 
     public void TakeDamage(float amount, GameObject source = null)
     {
