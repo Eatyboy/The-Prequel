@@ -14,7 +14,8 @@ public class PlayerMovement : MonoBehaviour
 
     // Refs
     private InputAction moveAction;
-    private CircleCollider2D col;
+    private CircleCollider2D circleCol;
+    private CapsuleCollider2D capsuleCol;
     private Rigidbody2D rb;
     private PlayerAbilities abilities;
 
@@ -33,7 +34,8 @@ public class PlayerMovement : MonoBehaviour
     {
         moveAction = InputSystem.actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
-        col = GetComponent<CircleCollider2D>();
+        circleCol = GetComponent<CircleCollider2D>();
+        capsuleCol = GetComponent<CapsuleCollider2D>();
         abilities = GetComponent<PlayerAbilities>();
     }
 
@@ -63,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         {
             dashTimer += Time.fixedDeltaTime;
 
-            var enemyColliders = Physics2D.OverlapCircleAll(transform.position, col.radius, enemyLayerMask);
+            var enemyColliders = Physics2D.OverlapCircleAll(transform.position, circleCol.radius, enemyLayerMask);
             foreach (var enemyCol in enemyColliders)
             {
                 if (enemiesHit.Contains(enemyCol)) continue;
@@ -82,11 +84,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void GoIntangible()
     {
-        col.excludeLayers |= enemyLayerMask | foregroundLayerMask;
+        circleCol.excludeLayers |= enemyLayerMask | foregroundLayerMask;
+        capsuleCol.excludeLayers |= enemyLayerMask | foregroundLayerMask;
     }
 
     public void StopIntangibility()
     {
-        col.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
+        circleCol.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
+        capsuleCol.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
     }
 }
