@@ -13,6 +13,7 @@ public class Health : MonoBehaviour
     // Vars
     public float CurrentHealth;
     public bool IsIntangible;
+    public float Percent => Mathf.Clamp01(CurrentHealth / MaxHealth);
 
     // Refs
     [SerializeField] private HealthBar healthBar;
@@ -24,20 +25,20 @@ public class Health : MonoBehaviour
         float actualDamageTaken = Mathf.Clamp(amount, 0, CurrentHealth);
         CurrentHealth = Mathf.Clamp(CurrentHealth - amount, 0, MaxHealth);
         OnTakeDamage?.Invoke(amount);
-        if (healthBar != null) healthBar.SetHealth(Mathf.Max(CurrentHealth, 0) / MaxHealth);
+        if (healthBar != null) healthBar.SetHealth(Percent);
         
         if (source != null)
         {
             if (source.TryGetComponent(out MeleeEffect meleeEffect))
             {
-                if (meleeEffect.Source.TryGetComponent(out Health health))
+                if (meleeEffect.Source != null && meleeEffect.Source.TryGetComponent(out Health health))
                 {
                     health.TakeDamage(-actualDamageTaken * meleeEffect.LifestealFactor);
                 }
             }
             if (source.TryGetComponent(out Projectile projectile))
             {
-                if (projectile.Source.TryGetComponent(out Health health))
+                if (projectile.Source != null && projectile.Source.TryGetComponent(out Health health))
                 {
                     health.TakeDamage(-actualDamageTaken * projectile.LifestealFactor);
                 }
