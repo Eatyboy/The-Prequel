@@ -1,8 +1,10 @@
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [Flags]
 public enum PlayerAbility
@@ -26,8 +28,10 @@ public class Player : Singleton<Player>
     [HideInInspector] public PlayerAbilities abilities;
     [HideInInspector] public PlayerMovement movement;
     [HideInInspector] public List<Interactable> interactables = new();
+    private PlayerAnimation anim;
 
     public bool IsInteractLocked;
+    public bool IsDead;
 
     private InputAction interactAction;
 
@@ -42,6 +46,7 @@ public class Player : Singleton<Player>
         health = GetComponent<Health>();
         abilities = GetComponent<PlayerAbilities>();
         movement = GetComponent<PlayerMovement>();
+        anim = GetComponent<PlayerAnimation>();
 
         interactAction = InputSystem.actions.FindAction("Interact");
         look = InputSystem.actions.FindAction("Look");
@@ -106,7 +111,7 @@ public class Player : Singleton<Player>
         }
     }
 
-    private void PlayerDeath()
+    private async void PlayerDeath()
     {
         if (abilities.CanUse(PlayerAbility.DeathRefusal))
         {
@@ -115,7 +120,14 @@ public class Player : Singleton<Player>
         }
         else
         {
-            Debug.Log("Die frfr");
+            IsDead = true;
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<PlayerAbilities>().enabled = false;
+            GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
+            anim.TriggerAnimation("Death", false);
+            await UniTask.WaitForSeconds(3.0f);
+            SceneManager.LoadScene("Main");
         }
     }
 }

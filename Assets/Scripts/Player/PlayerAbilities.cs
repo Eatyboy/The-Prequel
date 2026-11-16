@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -110,12 +111,12 @@ public class PlayerAbilities : MonoBehaviour
         if (ability1.WasPressedThisFrame() && CanUse(PlayerAbility.Stun))
         {
             abilities[PlayerAbility.Stun].GoOnCooldown();
-            AbilityOne();
+            ConeStun();
         }
         if (ability2.WasPressedThisFrame() && CanUse(PlayerAbility.BatSwarm))
         {
             abilities[PlayerAbility.BatSwarm].GoOnCooldown();
-            AbilityTwo();
+            BatSwarm();
         }
         if (dashAction.WasPressedThisFrame() && CanUse(PlayerAbility.Dash))
         {
@@ -183,17 +184,18 @@ public class PlayerAbilities : MonoBehaviour
         projectile.Init(transform.position + (Vector3)direction, direction, gameObject, "Player");
     }
 
-    // Cone stun
-    private void AbilityOne()
+    private async void ConeStun()
     {
         LockAbilities(false);
+        anim.TriggerAnimation("Stun", true, true);
         MeleeEffect stunCone = Instantiate(stunConePrefab, transform);
         stunCone.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
-        StartCoroutine(LockAbilitiesIE(false, stunCone.VisualDuration));
+        await UniTask.WaitForSeconds(stunCone.VisualDuration);
+        anim.EndTriggerAnimation();
+        LockAbilities(false);
     }
 
-    // Bat swarm invulnerability
-    private void AbilityTwo()
+    private void BatSwarm()
     {
         LockAbilities(true);
         Player.Instance.health.SetIntangible(true);
