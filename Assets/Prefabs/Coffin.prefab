@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Coffin
   interactable: {fileID: 8670374424800449842}
+  animator: {fileID: 481624379430380491}
   unlocks: 0
   isOpened: 0
 --- !u!70 &5790063600049126590

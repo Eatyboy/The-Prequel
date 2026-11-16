@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerAbilities abilities;
     private PlayerAnimation anim;
+    private Player player;
 
     [SerializeField] private LayerMask enemyLayerMask;
     [SerializeField] private LayerMask foregroundLayerMask;
@@ -40,10 +41,12 @@ public class PlayerMovement : MonoBehaviour
         capsuleCol = GetComponent<CapsuleCollider2D>();
         abilities = GetComponent<PlayerAbilities>();
         anim = GetComponent<PlayerAnimation>();
+        player = GetComponent<Player>();
     }
 
     private void Update()
     {
+        if (player.IsDead) return;
         moveDir = moveAction.ReadValue<Vector2>();
     }
 
