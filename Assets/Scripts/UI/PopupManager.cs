@@ -36,6 +36,8 @@ public class PopupManager : Singleton<PopupManager>
 
     private void OnDestroyDamagePopup(DamagePopup damagePopup)
     {
+        if (damagePopup == null) return;
+
 #if UNITY_EDITOR
         if (!Application.isPlaying)
         {

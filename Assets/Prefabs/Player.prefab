@@ -58,6 +58,7 @@ MonoBehaviour:
   abilities: {fileID: 0}
   movement: {fileID: 0}
   interactables: []
+  IsInteractLocked: 0
 --- !u!114 &7206518852014946525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,8 +82,8 @@ MonoBehaviour:
   - key: 1
     value:
       ability: 1
-      cooldown: 0.1
-      unlockedByDefault: 1
+      cooldown: 1
+      unlockedByDefault: 0
       cooldownTimer: 0
   - key: 2
     value:
