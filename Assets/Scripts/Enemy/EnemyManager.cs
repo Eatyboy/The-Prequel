@@ -1,10 +1,12 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class EnemyManager : Singleton<MonoBehaviour>
 {
     [Header("Refs")]
-    [SerializeField] private Enemy enemyPrefab;
+    [SerializeField] private List<EnemyWave> enemyWaves;
 
     [Header("Config")]
     [SerializeField] private float spawnDelaySeconds = 5.0f;
@@ -13,26 +15,14 @@ public class EnemyManager : Singleton<MonoBehaviour>
     [Header("Vars")]
     public List<Enemy> enemies;
 
-    private float spawnTimer = 0.0f;
+    public bool shouldSpawnEnemies = true;
 
     private void Start()
     {
-        spawnTimer = spawnDelaySeconds;
+        HandleSpawning();
     }
 
-    private void Update()
-    {
-        float dt = Time.deltaTime;
-
-        spawnTimer -= dt;
-        if (spawnTimer <= 0.0f)
-        {
-            enemies.Add(SpawnEnemy());
-            spawnTimer = spawnDelaySeconds;
-        }
-    }
-
-    public Enemy SpawnEnemy()
+    public Enemy SpawnEnemy(Enemy enemyPrefab)
     {
         float spawnDistance = Random.Range(spawnDistanceRange.x, spawnDistanceRange.y);
         float spawnAngle = Random.Range(0.0f, 2.0f * Mathf.PI);
@@ -41,4 +31,37 @@ public class EnemyManager : Singleton<MonoBehaviour>
 
         return enemy;
     }
+
+    private async void HandleSpawning(CancellationToken ct = default)
+    {
+        foreach (var wave in enemyWaves)
+        {
+            await UniTask.WaitForSeconds(wave.initialDelay, cancellationToken: ct);
+            foreach (var group in wave.spawnGroups)
+            {
+                for (int enemyIndex = 0; enemyIndex < group.amount; enemyIndex++)
+                {
+                    enemies.Add(SpawnEnemy(group.enemy));
+                    await UniTask.WaitForSeconds(group.delayBetweenEnemySpawns, cancellationToken: ct);
+                }
+                await UniTask.WaitForSeconds(group.delayUntilNextSpawnGroup, cancellationToken: ct);
+            }
+        }
+    }
+}
+
+[System.Serializable]
+public class EnemySpawnGroup
+{
+    public Enemy enemy;
+    public int amount = 1;
+    public float delayBetweenEnemySpawns = 0.0f;
+    public float delayUntilNextSpawnGroup = 0.0f;
+}
+
+[System.Serializable]
+public class EnemyWave
+{
+    public List<EnemySpawnGroup> spawnGroups;
+    public float initialDelay;
 }
