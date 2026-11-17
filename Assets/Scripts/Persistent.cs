@@ -25,7 +25,7 @@ public class Persistent : MonoBehaviour
     public static async void GoToTitleScreen()
     {
         await ScreenFader.FadeOut();
-        //AudioManager.instance.StopMusic();
+        AudioManager.instance.StopMusic();
         await SceneManager.LoadSceneAsync("Menu");
         await ScreenFader.FadeIn();
     }
@@ -34,7 +34,7 @@ public class Persistent : MonoBehaviour
     {
         await ScreenFader.FadeOut();
         await SceneManager.LoadSceneAsync("Main");
-        //AudioManager.instance.PlayMusic(AudioManager.instance.mainTheme);
+        AudioManager.instance.PlayMusic(AudioManager.instance.mainTheme);
         await ScreenFader.FadeIn();
     }
 }
