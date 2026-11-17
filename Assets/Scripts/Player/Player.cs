@@ -137,6 +137,14 @@ public class Player : Singleton<Player>
         anim.LockDirection(true);
     }
 
+    public void UnlockEverything()
+    {
+        abilities.LockAbilities(false);
+        movement.LockMovement(false);
+        anim.LockDirection(false);
+        health.SetIntangible(false);
+    }
+
     public async UniTask GainPower(PlayerAbility unlocks)
     {
         anim.TriggerAnimation("Stake", false);
@@ -152,9 +160,5 @@ public class Player : Singleton<Player>
         await UniTask.WaitForSeconds(0.6f);
 
         anim.EndTriggerAnimation();
-        abilities.LockAbilities(false);
-        movement.LockMovement(false);
-        anim.LockDirection(false);
-        health.SetIntangible(false);
     }
 }

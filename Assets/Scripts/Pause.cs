@@ -13,9 +13,9 @@ public class Pause : Singleton<Pause>
         }
     }
 
-    public void PauseGame(bool isPaused)
+    public static void PauseGame(bool isPaused)
     {
-        IsPaused = isPaused;
+        Instance.IsPaused = isPaused;
         if (isPaused)
         {
             Time.timeScale = 0.0f;

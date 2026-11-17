@@ -1,9 +1,11 @@
+using Cysharp.Threading.Tasks.Triggers;
 using UnityEngine;
 
 public class Coffin : MonoBehaviour
 {
     [SerializeField] private Interactable interactable;
     [SerializeField] private Animator animator;
+    [SerializeField] private AbilityTutorial tutorial;
 
     public PlayerAbility unlocks;
     public bool isOpened = false;
@@ -22,6 +24,7 @@ public class Coffin : MonoBehaviour
     {
         if (interactable == null) interactable = GetComponentInChildren<Interactable>();
         interactable.OnInteract += OpenCoffin;
+        tutorial.gameObject.SetActive(false);
     }
 
     private async void OpenCoffin()
@@ -44,5 +47,12 @@ public class Coffin : MonoBehaviour
         animator.Play(OpenWithoutStake, 0, 0);
 
         await Player.Instance.GainPower(unlocks);
+
+        tutorial.gameObject.SetActive(true);
+        tutorial.Init(() =>
+        {
+            Player.Instance.UnlockEverything();
+            tutorial.gameObject.SetActive(false);
+        });
     }
 }
