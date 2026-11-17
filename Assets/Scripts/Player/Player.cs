@@ -36,6 +36,7 @@ public class Player : Singleton<Player>
     public bool IsDead;
 
     private InputAction interactAction;
+    [SerializeField] private DeathScreen deathScreen;
 
     // Actions
     private InputAction look;
@@ -52,6 +53,8 @@ public class Player : Singleton<Player>
 
         interactAction = InputSystem.actions.FindAction("Interact");
         look = InputSystem.actions.FindAction("Look");
+
+        deathScreen.gameObject.SetActive(false);
     }
 
     private void Start()
@@ -125,7 +128,8 @@ public class Player : Singleton<Player>
             anim.TriggerAnimation("Death", false);
             await UniTask.WaitForSeconds(3.0f);
 
-            Persistent.GoToTitleScreen();
+            deathScreen.gameObject.SetActive(true);
+            deathScreen.OpenDeathScreen();
         }
     }
 
