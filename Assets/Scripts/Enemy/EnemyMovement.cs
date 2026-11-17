@@ -18,6 +18,7 @@ public class EnemyMovement : MonoBehaviour
 
     // Refs
     private Rigidbody2D rb;
+    private Enemy enemy;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         Target = Player.Instance.transform;
+        enemy = GetComponent<Enemy>();
     }
 
     private void FixedUpdate()
@@ -44,7 +46,7 @@ public class EnemyMovement : MonoBehaviour
             distanceToTarget = offsetToTarget.magnitude;
         }
 
-        if (distanceToTarget <= stopDistance)
+        if (!enemy.IsMelee && distanceToTarget <= stopDistance || enemy.IsMelee && distanceToTarget <= 0.1)
         {
             moveDir = Vector2.zero;
         }

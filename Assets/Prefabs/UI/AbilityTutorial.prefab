@@ -367,8 +367,8 @@ MonoBehaviour:
   continueText: {fileID: 8752532610973194202}
   animSpeed: 2
   animScaleFactor: 1.1
-  fadeDuration: 1
-  minTimeSinceEnabledToContinue: 2
+  fadeDuration: 0.5
+  minTimeSinceEnabledToContinue: 1
 --- !u!1 &6745991805458484389
 GameObject:
   m_ObjectHideFlags: 0

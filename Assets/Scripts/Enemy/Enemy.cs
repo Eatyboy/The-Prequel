@@ -12,12 +12,14 @@ public class Enemy : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] private Projectile bullet;
+    [SerializeField] private MeleeEffect meleeEffect;
     public EnemyMovement movement;
     private EnemyAnimation animation;
     [SerializeField] private Transform projPoint;
 
     [Header("Config")]
     [SerializeField] private float attackCooldown = 1.0f;
+    public bool IsMelee;
     private float attackTimer = 0.0f;
 
     private void Awake()
@@ -49,23 +51,48 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            if (movement.distanceToTarget <= movement.stopDistance)
-            {
-                attackTimer += Time.deltaTime;
-                if (attackTimer >= attackCooldown)
-                {
-                    var newBullet = Instantiate(bullet);
-                    newBullet.Init(projPoint.position, (movement.Target.position - transform.position).normalized, gameObject, "Enemy");
-                    attackTimer = 0.0f;
+            Attack();
+        }
+    }
 
-                    animation.TriggerAnimation("Attack");
+    public void Attack()
+    {
+        if (movement.distanceToTarget <= movement.stopDistance)
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer >= attackCooldown)
+            {
+                Vector2 playerDirection = (movement.Target.position - transform.position).normalized;
+                if (IsMelee)
+                {
+                    Melee(playerDirection);
+                }
+                else
+                {
+                    Shoot(playerDirection);
                 }
             }
-            else
-            {
-                attackTimer = 0.0f;
-            }
         }
+        else
+        {
+            attackTimer = 0.0f;
+        }
+    }
+
+    public void Shoot(Vector2 dir)
+    {
+        var newBullet = Instantiate(bullet);
+        newBullet.Init(projPoint.position, dir, gameObject, "Enemy");
+        attackTimer = 0.0f;
+
+        animation.TriggerAnimation("Attack");
+    }
+
+    public void Melee(Vector2 dir)
+    {
+        var newMelee = Instantiate(meleeEffect, transform);
+        newMelee.Init(projPoint.position + (Vector3)dir, dir, gameObject, "Enemy");
+        attackTimer = 0.0f;
     }
 
     public void Stun(float duration)
