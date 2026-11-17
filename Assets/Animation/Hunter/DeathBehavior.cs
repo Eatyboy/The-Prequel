@@ -6,7 +6,5 @@ public class DeathBehavior : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.enabled = false;
-        Debug.Log("disable");
-
     }
 }
