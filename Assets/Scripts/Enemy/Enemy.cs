@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Projectile bullet;
     public EnemyMovement movement;
     private EnemyAnimation animation;
+    [SerializeField] private Transform projPoint;
 
     [Header("Config")]
     [SerializeField] private float attackCooldown = 1.0f;
@@ -54,7 +55,7 @@ public class Enemy : MonoBehaviour
                 if (attackTimer >= attackCooldown)
                 {
                     var newBullet = Instantiate(bullet);
-                    newBullet.Init(transform.position, (movement.Target.position - transform.position).normalized, gameObject, "Enemy");
+                    newBullet.Init(projPoint.position, (movement.Target.position - transform.position).normalized, gameObject, "Enemy");
                     attackTimer = 0.0f;
 
                     animation.TriggerAnimation("Attack");
@@ -82,18 +83,19 @@ public class Enemy : MonoBehaviour
         GetComponent<CapsuleCollider2D>().enabled = false;
         GetComponent<EnemyMovement>().enabled = false;
         GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
+        GetComponentInChildren<SpriteRenderer>().sortingOrder = -2;
         Player.Instance.onKill.Invoke();
         Destroy(health.healthBar.gameObject);
         animation.TriggerAnimation("Death", false);
         try
         {
             await UniTask.WaitForSeconds(10.0f, cancellationToken: this.GetCancellationTokenOnDestroy());
+            Destroy(gameObject);
         }
         catch
         {
 
         }
-        Destroy(gameObject);
     }
 
     private void OnTakeDamage(float amount)

@@ -118,6 +118,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1283012056377456710}
   - {fileID: 3289223412502860059}
   - {fileID: 6645404644537606695}
   m_Father: {fileID: 0}
@@ -159,6 +160,7 @@ MonoBehaviour:
   stunConePrefab: {fileID: 5957657109047962385, guid: 9ce345a592c6dd34e987381e4a9e8a10, type: 3}
   batSwarmPrefab: {fileID: 5957657109047962385, guid: 659fe07d9956a2b41bbba73db1fc8ccd, type: 3}
   deathRefusalExplosionPrefab: {fileID: 5957657109047962385, guid: fac683536b6222c40822c7a7e3cd6c75, type: 3}
+  projPoint: {fileID: 1283012056377456710}
   IsAbilitiesLocked: 0
   unlockedAbilities: 0
   abilities:
@@ -502,6 +504,37 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &5748344430608591982
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1283012056377456710}
+  m_Layer: 0
+  m_Name: ProjectilePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1283012056377456710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5748344430608591982}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.672, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8078798908996135217}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5364268143731792958
 PrefabInstance:
   m_ObjectHideFlags: 0
