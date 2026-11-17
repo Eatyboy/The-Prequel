@@ -11,6 +11,7 @@ public class EnemyManager : Singleton<EnemyManager>
     [SerializeField] private HealthBar enemyHealthBarPrefab;
 
     [Header("Config")]
+    [SerializeField] private float loopFactor = 0.9f;
     [SerializeField] private float spawnDelaySeconds = 5.0f;
     [SerializeField] private Vector2 spawnDistanceRange = new(10.0f, 15.0f);
     public Vector2 enemyHealthBarOffset;
@@ -20,9 +21,24 @@ public class EnemyManager : Singleton<EnemyManager>
 
     public bool shouldSpawnEnemies = true;
 
+    private float loopTimeFactor;
+    private bool isSpawning;
+
     private void Start()
     {
+        loopTimeFactor = 1.0f;
         HandleSpawning();
+    }
+
+    private void Update()
+    {
+        if (!isSpawning)
+        {
+            // :sob:
+            // Just making time shorter between spawns
+            loopTimeFactor *= loopFactor;
+            HandleSpawning();
+        }
     }
 
     public Enemy SpawnEnemy(Enemy enemyPrefab)
@@ -40,19 +56,20 @@ public class EnemyManager : Singleton<EnemyManager>
 
     private async void HandleSpawning(CancellationToken ct = default)
     {
+        isSpawning = true;
         foreach (var wave in enemyWaves)
         {
             try
             {
-                await UniTask.WaitForSeconds(wave.initialDelay, cancellationToken: this.GetCancellationTokenOnDestroy());
+                await UniTask.WaitForSeconds(wave.initialDelay * loopTimeFactor, cancellationToken: this.GetCancellationTokenOnDestroy());
                 foreach (var group in wave.spawnGroups)
                 {
                     for (int enemyIndex = 0; enemyIndex < group.amount; enemyIndex++)
                     {
                         enemies.Add(SpawnEnemy(group.enemy));
-                        await UniTask.WaitForSeconds(group.delayBetweenEnemySpawns, cancellationToken: this.GetCancellationTokenOnDestroy());
+                        await UniTask.WaitForSeconds(group.delayBetweenEnemySpawns * loopTimeFactor, cancellationToken: this.GetCancellationTokenOnDestroy());
                     }
-                    await UniTask.WaitForSeconds(group.delayUntilNextSpawnGroup, cancellationToken: this.GetCancellationTokenOnDestroy());
+                    await UniTask.WaitForSeconds(group.delayUntilNextSpawnGroup * loopTimeFactor, cancellationToken: this.GetCancellationTokenOnDestroy());
                 }
             }
             catch
@@ -60,6 +77,7 @@ public class EnemyManager : Singleton<EnemyManager>
 
             }
         }
+        isSpawning = false;
     }
 }
 
