@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using FMOD.Studio;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -33,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isDashing = false;
     public bool isMovementLocked;
+    public bool isInvisible;
+
+    private EventInstance runningSound;
+    private bool isRunningSoundPlaying;
 
     private void Awake()
     {
@@ -44,10 +49,39 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Player>();
     }
 
+    private void Start()
+    {
+        runningSound = AudioManager.instance.CreateEventInstance(AudioManager.instance.running);
+    }
+
+    private void OnDestroy()
+    {
+        if (!runningSound.isValid()) return;
+        runningSound.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+        runningSound.release();
+        runningSound.clearHandle();
+    }
+
     private void Update()
     {
-        if (player.IsDead) return;
-        moveDir = moveAction.ReadValue<Vector2>();
+        if (!player.IsDead) moveDir = moveAction.ReadValue<Vector2>();
+        UpdateRunningSound();
+    }
+
+    private void UpdateRunningSound()
+    {
+        bool isRunning = !player.IsDead
+            && !isMovementLocked
+            && !isDashing
+            && !isInvisible
+            && Time.timeScale > 0.0f
+            && moveDir.sqrMagnitude > 0.01f;
+
+        if (isRunning == isRunningSoundPlaying || !runningSound.isValid()) return;
+
+        if (isRunning) runningSound.start();
+        else runningSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        isRunningSoundPlaying = isRunning;
     }
 
     private void FixedUpdate()
@@ -105,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
         capsuleCol.excludeLayers |= enemyLayerMask | foregroundLayerMask;
         if (isInvisible)
         {
+            this.isInvisible = true;
             foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
             {
                 sr.enabled = false;
@@ -115,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
     public void StopIntangibility()
     {
         capsuleCol.excludeLayers &= ~(enemyLayerMask | foregroundLayerMask);
+        isInvisible = false;
         foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>())
         {
             sr.enabled = true;

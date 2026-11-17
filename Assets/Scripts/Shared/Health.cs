@@ -5,6 +5,7 @@ public class Health : MonoBehaviour
 {
     // Actions
     public Action<float> OnTakeDamage;
+    public Action<float, GameObject> OnHurtBySource;
     public Action OnDeath;
 
     // Config
@@ -30,6 +31,7 @@ public class Health : MonoBehaviour
         float actualDamageTaken = Mathf.Clamp(amount, 0, CurrentHealth);
         CurrentHealth = Mathf.Clamp(CurrentHealth - amount, 0, MaxHealth);
         OnTakeDamage?.Invoke(amount);
+        if (amount > 0.0f && source != null) OnHurtBySource?.Invoke(amount, source);
         if (healthBar != null) healthBar.SetHealth(Percent);
         
         if (source != null)

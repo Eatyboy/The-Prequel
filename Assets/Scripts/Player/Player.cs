@@ -63,6 +63,7 @@ public class Player : Singleton<Player>
     private void Start()
     {
         health.OnDeath += PlayerDeath;
+        health.OnHurtBySource += OnHurt;
 
         heartbeat = AudioManager.instance.CreateEventInstance(AudioManager.instance.heartbeat);
         heartbeat.setParameterByName("Health", health.Percent);
@@ -72,6 +73,12 @@ public class Player : Singleton<Player>
     private void OnDestroy()
     {
         StopHeartbeat();
+    }
+
+    private void OnHurt(float amount, GameObject source)
+    {
+        if (health.CurrentHealth <= 0) return;
+        AudioManager.instance.PlayOneShot(AudioManager.instance.playerHurt);
     }
 
     private void StopHeartbeat()

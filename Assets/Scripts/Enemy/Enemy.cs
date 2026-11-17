@@ -91,6 +91,7 @@ public class Enemy : MonoBehaviour
 
     public void Melee(Vector2 dir)
     {
+        AudioManager.instance.PlayOneShot(AudioManager.instance.chomp);
         var newMelee = Instantiate(meleeEffect, transform);
         newMelee.Init(projPoint.position + (Vector3)dir, dir, gameObject, "Enemy");
         attackTimer = 0.0f;

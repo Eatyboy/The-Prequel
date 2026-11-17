@@ -163,11 +163,25 @@ MonoBehaviour:
       Data3: 1036006536
       Data4: -996252207
     Path: event:/SFX/CrossbowFire
-  stunFlash:
+  chomp:
     Guid:
-      Data1: 1339846590
-      Data2: 1075791964
-      Data3: 1359172489
-      Data4: 474165230
-    Path: event:/SFX/StunFlash
+      Data1: 1340532434
+      Data2: 1182437392
+      Data3: 1699738505
+      Data4: -1689599625
+    Path: event:/SFX/Chomp
+  running:
+    Guid:
+      Data1: 515243374
+      Data2: 1133198702
+      Data3: 2046615459
+      Data4: -883394122
+    Path: event:/SFX/Running
+  playerHurt:
+    Guid:
+      Data1: -132088860
+      Data2: 1235454934
+      Data3: 132291750
+      Data4: -59344599
+    Path: event:/SFX/PlayerHurt
   areBussesInitialized: 0

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{c867d372-a0a2-4099-8327-ff58b6a2b486}">
+		<property name="assetPath">
+			<value>SFX/GirlHurt1.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.59975056689342399</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{5e4ce219-06be-491c-aa03-79b636edd849}</destination>
+		</relationship>
+	</object>
+</objects>

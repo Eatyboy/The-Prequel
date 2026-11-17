@@ -33,6 +33,9 @@ public class AudioManager : MonoBehaviour
     public EventReference death;
     public EventReference deathRefusal;
     public EventReference crossbowFire;
+    public EventReference chomp;
+    public EventReference running;
+    public EventReference playerHurt;
 
     [Header("Ambience")]
 
