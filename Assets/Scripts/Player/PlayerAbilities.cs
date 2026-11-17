@@ -17,6 +17,9 @@ public class PlayerAbilities : MonoBehaviour
     [SerializeField] private MeleeEffect batSwarmPrefab;
     [SerializeField] private MeleeEffect deathRefusalExplosionPrefab;
 
+    [Header("Refs")]
+    [SerializeField] private Transform projPoint;
+
     public bool IsAbilitiesLocked;
 
     // Refs
@@ -150,7 +153,7 @@ public class PlayerAbilities : MonoBehaviour
         Player.Instance.health.SetIntangible(true);
         Player.Instance.health.CurrentHealth = 1;
         MeleeEffect deathRefuse = Instantiate(deathRefusalExplosionPrefab, transform);
-        deathRefuse.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
+        deathRefuse.Init(projPoint.position, Player.Instance.LookDir, gameObject, "Player");
         //StartCoroutine(DeathRefuse(anim.animator.GetCurrentAnimatorClipInfo(0)[0].clip.length));
         // TODO: Hardcoded cause current clip doesn't get updated immediately
         StartCoroutine(DeathRefuse(1.0f));
@@ -173,7 +176,7 @@ public class PlayerAbilities : MonoBehaviour
     {
         LockAbilities(true);
         MeleeEffect meleeEffect = Instantiate(meleeEffectPrefab, transform);
-        meleeEffect.Init(transform.position + (Vector3)direction, direction, gameObject, "Player");
+        meleeEffect.Init(projPoint.position + (Vector3)direction, direction, gameObject, "Player");
         StartCoroutine(LockAbilitiesIE(false, meleeEffect.VisualDuration));
     }
 
@@ -181,7 +184,7 @@ public class PlayerAbilities : MonoBehaviour
     public void SecondaryAttack(Vector2 direction)
     {
         Projectile projectile = Instantiate(rangedProjectilePrefab);
-        projectile.Init(transform.position + (Vector3)direction, direction, gameObject, "Player");
+        projectile.Init(projPoint.position + (Vector3)direction, direction, gameObject, "Player");
     }
 
     private async void ConeStun()
@@ -189,7 +192,7 @@ public class PlayerAbilities : MonoBehaviour
         LockAbilities(false);
         anim.TriggerAnimation("Stun", true, true);
         MeleeEffect stunCone = Instantiate(stunConePrefab, transform);
-        stunCone.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
+        stunCone.Init(projPoint.position, Player.Instance.LookDir, gameObject, "Player");
         await UniTask.WaitForSeconds(stunCone.VisualDuration);
         anim.EndTriggerAnimation();
         LockAbilities(false);
@@ -200,7 +203,7 @@ public class PlayerAbilities : MonoBehaviour
         LockAbilities(true);
         Player.Instance.health.SetIntangible(true);
         MeleeEffect batSwarm = Instantiate(batSwarmPrefab, transform);
-        batSwarm.Init(transform.position, Player.Instance.LookDir, gameObject, "Player");
+        batSwarm.Init(projPoint.position, Player.Instance.LookDir, gameObject, "Player");
         StartCoroutine(BatSwarm(3.0f));
     }
 
