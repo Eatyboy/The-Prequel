@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using FMOD.Studio;
 using NUnit.Framework;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -42,6 +43,8 @@ public class Player : Singleton<Player>
     private InputAction look;
     public Action onKill;
 
+    private EventInstance heartbeat;
+
     public override void Awake()
     {
         base.Awake();
@@ -60,6 +63,23 @@ public class Player : Singleton<Player>
     private void Start()
     {
         health.OnDeath += PlayerDeath;
+
+        heartbeat = AudioManager.instance.CreateEventInstance(AudioManager.instance.heartbeat);
+        heartbeat.setParameterByName("Health", health.Percent);
+        heartbeat.start();
+    }
+
+    private void OnDestroy()
+    {
+        StopHeartbeat();
+    }
+
+    private void StopHeartbeat()
+    {
+        if (!heartbeat.isValid()) return;
+        heartbeat.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        heartbeat.release();
+        heartbeat.clearHandle();
     }
 
     private void Update()
@@ -68,6 +88,8 @@ public class Player : Singleton<Player>
         LookDir = (LookPos - (Vector2)transform.position).normalized;
 
         if (interactAction.WasPressedThisFrame()) Interact();
+
+        if (heartbeat.isValid()) heartbeat.setParameterByName("Health", health.Percent);
     }
 
     private void Interact()
@@ -115,12 +137,16 @@ public class Player : Singleton<Player>
         if (abilities.CanUse(PlayerAbility.DeathRefusal))
         {
             abilities.abilities[PlayerAbility.DeathRefusal].GoOnCooldown();
+            AudioManager.instance.PlayOneShot(AudioManager.instance.deathRefusal);
             abilities.DeathRefusal();
         }
         else
         {
             health.OnDeath -= PlayerDeath;
             IsDead = true;
+            StopHeartbeat();
+            AudioManager.instance.PlayOneShot(AudioManager.instance.death);
+            AudioManager.instance.StopMusic();
             GetComponent<CapsuleCollider2D>().enabled = false;
             GetComponent<PlayerMovement>().enabled = false;
             GetComponent<PlayerAbilities>().enabled = false;
@@ -156,6 +182,7 @@ public class Player : Singleton<Player>
 
         await UniTask.WaitForSeconds(0.2f);
 
+        AudioManager.instance.PlayOneShot(AudioManager.instance.stakeStab);
         abilities.Unlock(unlocks);
 
         await UniTask.WaitForSeconds(0.1f);

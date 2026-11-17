@@ -81,6 +81,7 @@ public class Enemy : MonoBehaviour
 
     public void Shoot(Vector2 dir)
     {
+        AudioManager.instance.PlayOneShot(AudioManager.instance.crossbowFire);
         var newBullet = Instantiate(bullet);
         newBullet.Init(projPoint.position, dir, gameObject, "Enemy");
         attackTimer = 0.0f;
@@ -128,5 +129,6 @@ public class Enemy : MonoBehaviour
     private void OnTakeDamage(float amount)
     {
         PopupManager.Instance.SpawnDamagePopup(transform.position, amount);
+        if (amount > 0.0f) AudioManager.instance.PlayOneShot(AudioManager.instance.enemyHit);
     }
 }

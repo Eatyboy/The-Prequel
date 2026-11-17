@@ -128,6 +128,13 @@ MonoBehaviour:
       Data3: -1993988168
       Data4: -553301278
     Path: event:/SFX/BloodSpike
+  stunFlash:
+    Guid:
+      Data1: 1339846590
+      Data2: 1075791964
+      Data3: 1359172489
+      Data4: 474165230
+    Path: event:/SFX/StunFlash
   reviveOffCooldown:
     Guid:
       Data1: -1341882700
@@ -156,4 +163,11 @@ MonoBehaviour:
       Data3: 1036006536
       Data4: -996252207
     Path: event:/SFX/CrossbowFire
+  stunFlash:
+    Guid:
+      Data1: 1339846590
+      Data2: 1075791964
+      Data3: 1359172489
+      Data4: 474165230
+    Path: event:/SFX/StunFlash
   areBussesInitialized: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4512535025152777553}
   - component: {fileID: 153462052827662155}
   - component: {fileID: 5396107295299295526}
+  - component: {fileID: 576707532207630892}
   m_Layer: 5
   m_Name: End Button
   m_TagString: Untagged
@@ -792,6 +793,7 @@ GameObject:
   - component: {fileID: 5850827184695752667}
   - component: {fileID: 4677924985842776296}
   - component: {fileID: 2911098944830174249}
+  - component: {fileID: 3465800723375503484}
   m_Layer: 5
   m_Name: Retry Button
   m_TagString: Untagged
@@ -974,3 +976,27 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &576707532207630892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753008768654213794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eccd01425e5f07be86eac1dac7c5bfab, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSounds
+--- !u!114 &3465800723375503484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9134664920470635020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eccd01425e5f07be86eac1dac7c5bfab, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSounds

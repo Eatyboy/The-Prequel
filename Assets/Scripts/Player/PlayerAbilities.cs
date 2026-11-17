@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using FMOD.Studio;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -34,6 +35,8 @@ public class PlayerAbilities : MonoBehaviour
     private InputAction dashAction;
 
     public PlayerAbility unlockedAbilities = PlayerAbility.None;
+
+    private EventInstance batSwarmSound;
 
     [Serializable]
     public class AbilityState
@@ -124,19 +127,27 @@ public class PlayerAbilities : MonoBehaviour
         if (dashAction.WasPressedThisFrame() && CanUse(PlayerAbility.Dash))
         {
             abilities[PlayerAbility.Dash].GoOnCooldown();
+            AudioManager.instance.PlayOneShot(AudioManager.instance.slicingWhirl);
             movement.Dash();
         }
 
         foreach (var abilityState in abilities.Values)
         {
             if (!abilityState.isUnlocked) continue;
+            bool wasOnCooldown = abilityState.onCooldown;
             abilityState.cooldownTimer = Mathf.Max(abilityState.cooldownTimer - Time.deltaTime, 0.0f);
+
+            if (wasOnCooldown && !abilityState.onCooldown && abilityState.ability == PlayerAbility.DeathRefusal)
+            {
+                AudioManager.instance.PlayOneShot(AudioManager.instance.reviveOffCooldown);
+            }
         }
     }
 
     public void Unlock(PlayerAbility ability)
     {
         unlockedAbilities |= ability;
+        AudioManager.instance.PlayOneShot(AudioManager.instance.unlockAbility);
         if (abilityIndicators.TryGetValue(ability, out var indicator))
         {
             indicator.gameObject.SetActive(true);
@@ -175,6 +186,7 @@ public class PlayerAbilities : MonoBehaviour
     public void PrimaryAttack(Vector2 direction)
     {
         LockAbilities(true);
+        AudioManager.instance.PlayOneShot(AudioManager.instance.clawSwipe);
         MeleeEffect meleeEffect = Instantiate(meleeEffectPrefab, transform);
         meleeEffect.Init(projPoint.position + (Vector3)direction, direction, gameObject, "Player");
         StartCoroutine(LockAbilitiesIE(false, meleeEffect.VisualDuration));
@@ -183,6 +195,7 @@ public class PlayerAbilities : MonoBehaviour
     // Blood spike
     public void SecondaryAttack(Vector2 direction)
     {
+        AudioManager.instance.PlayOneShot(AudioManager.instance.bloodSpike);
         Projectile projectile = Instantiate(rangedProjectilePrefab);
         projectile.Init(projPoint.position + (Vector3)direction, direction, gameObject, "Player");
     }
@@ -191,6 +204,7 @@ public class PlayerAbilities : MonoBehaviour
     {
         LockAbilities(false);
         anim.TriggerAnimation("Stun", true, true);
+        AudioManager.instance.PlayOneShot(AudioManager.instance.stunFlash);
         MeleeEffect stunCone = Instantiate(stunConePrefab, transform);
         stunCone.Init(projPoint.position, Player.Instance.LookDir, gameObject, "Player");
         await UniTask.WaitForSeconds(stunCone.VisualDuration);
@@ -210,10 +224,30 @@ public class PlayerAbilities : MonoBehaviour
     private IEnumerator BatSwarm(float duration)
     {
         movement.GoIntangible(true);
+
+        StopBatSwarmSound();
+        batSwarmSound = AudioManager.instance.CreateEventInstance(AudioManager.instance.batSwarm);
+        batSwarmSound.start();
+
         yield return new WaitForSeconds(duration);
+
+        StopBatSwarmSound();
         movement.StopIntangibility();
         Player.Instance.health.SetIntangible(false);
         LockAbilities(false);
+    }
+
+    private void StopBatSwarmSound()
+    {
+        if (!batSwarmSound.isValid()) return;
+        batSwarmSound.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        batSwarmSound.release();
+        batSwarmSound.clearHandle();
+    }
+
+    private void OnDestroy()
+    {
+        StopBatSwarmSound();
     }
 
     private IEnumerator DeathRefuse(float duration)

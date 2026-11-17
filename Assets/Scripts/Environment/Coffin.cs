@@ -38,6 +38,7 @@ public class Coffin : MonoBehaviour
         interactable.Enable(false);
         isOpened = true;
         Player.Instance.OpenCoffin();
+        AudioManager.instance.PlayOneShot(AudioManager.instance.openCoffin);
 
         animator.Play(Opening, 0, 0);
     }

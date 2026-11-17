@@ -28,6 +28,7 @@ public class AudioManager : MonoBehaviour
     public EventReference unlockAbility;
     public EventReference slicingWhirl;
     public EventReference bloodSpike;
+    public EventReference stunFlash;
     public EventReference reviveOffCooldown;
     public EventReference death;
     public EventReference deathRefusal;
@@ -53,8 +54,12 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null && instance != this) Destroy(gameObject);
-        else instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
 
         DontDestroyOnLoad(gameObject);
 
@@ -79,7 +84,7 @@ public class AudioManager : MonoBehaviour
         masterBus = RuntimeManager.GetBus("bus:/");
         sfxBus = RuntimeManager.GetBus("bus:/SFX");
         musicBus = RuntimeManager.GetBus("bus:/Music");
-        musicBus = RuntimeManager.GetBus("bus:/Ambience");
+        ambienceBus = RuntimeManager.GetBus("bus:/Ambience");
 
         if (!areBussesInitialized)
         {

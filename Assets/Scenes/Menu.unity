@@ -452,6 +452,7 @@ GameObject:
   - component: {fileID: 1381937439}
   - component: {fileID: 1381937441}
   - component: {fileID: 1381937442}
+  - component: {fileID: 254814706}
   m_Layer: 5
   m_Name: Rhombus Button
   m_TagString: Untagged
@@ -935,6 +936,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e09bee65b9304b4a817dc0923f37885, type: 3}
+--- !u!114 &254814706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381937437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eccd01425e5f07be86eac1dac7c5bfab, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ButtonSounds
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
