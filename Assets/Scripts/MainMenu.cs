@@ -9,10 +9,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private Vector2 hoveredLerpRange;
     [SerializeField] private Vector2 speedRange;
     [SerializeField] private Button rhombus;
-    public async void StartGame()
+    public void StartGame()
     {
-        // TODO: Fade
-        await SceneManager.LoadSceneAsync("Main");
+        Persistent.GoToGame();
     }
 
     public void Hover(bool isHovered)

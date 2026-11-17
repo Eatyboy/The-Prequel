@@ -124,7 +124,8 @@ public class Player : Singleton<Player>
             GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
             anim.TriggerAnimation("Death", false);
             await UniTask.WaitForSeconds(3.0f);
-            SceneManager.LoadScene("Menu");
+
+            Persistent.GoToTitleScreen();
         }
     }
 
