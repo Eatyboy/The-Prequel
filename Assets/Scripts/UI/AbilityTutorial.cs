@@ -7,6 +7,8 @@ using UnityEngine.InputSystem.Utilities;
 
 public class AbilityTutorial : MonoBehaviour
 {
+    public static bool IsTutorialActive;
+
     [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private TextMeshProUGUI continueText;
     [SerializeField] private float animSpeed = 1.0f;
@@ -35,6 +37,7 @@ public class AbilityTutorial : MonoBehaviour
     public void Init(Action callback)
     {
         this.callback = callback;
+        IsTutorialActive = true;
         Pause.PauseGame(true);
         FadeIn();
         timer = 0.0f;
@@ -92,6 +95,7 @@ public class AbilityTutorial : MonoBehaviour
 
         FadeOut();
         Pause.PauseGame(false);
+        IsTutorialActive = false;
     }
 
     private void Update()

@@ -5,11 +5,14 @@ public class Pause : Singleton<Pause>
 {
     public bool IsPaused;
 
+    public GameObject PauseOverlay;
+
     private void Update()
     {
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        if (!AbilityTutorial.IsTutorialActive && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             PauseGame(!IsPaused);
+            Instance.PauseOverlay.SetActive(IsPaused);
         }
     }
 
